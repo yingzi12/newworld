@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.ManageMapper">
+
+    <sql id="selectManageVo">
+        select wm.id, wm.wid, wm.create_id, wm.ranks, wm.credit,
+               wm.user_name,wm.create_time, wm.update_time, wm.wname,wm.types,
+               wm.user_id, wm.create_name, wm.update_id, wm.update_name,su.sign
+        from wiki_manage wm ,sys_user su
+        where wm.user_id =su.user_id
+    </sql>
+
+    <select id="selectManageList" parameterType="com.xinshijie.wiki.dto.ManageDto" resultType="com.xinshijie.wiki.vo.ManageVo">
+        <include refid="selectManageVo"/>
+         <if test="id != null "> and wm.id = #{id}</if>
+         <if test="wid != null "> and wm.wid = #{wid}</if>
+         <if test="createId != null "> and wm.create_id = #{createId}</if>
+         <if test="ranks != null "> and wm.ranks = #{ranks}</if>
+         <if test="credit != null "> and wm.credit = #{credit}</if>
+         <if test="userName != null  and userName != ''"> and wm.user_name = #{userName}</if>
+         <if test="wname != null  and wname != ''"> and wm.wname = #{wname}</if>
+    </select>
+
+    <select id="selectPageManage"  resultType="com.xinshijie.wiki.vo.ManageVo">
+        <include refid="selectManageVo"/>
+                <if test="dto.id != null"> and wm.id = #{dto.id}</if>
+                <if test="dto.wid != null"> and wm.wid = #{dto.wid}</if>
+                <if test="dto.createId != null"> and wm.create_id = #{dto.createId}</if>
+                <if test="dto.ranks != null"> and wm.ranks = #{dto.ranks}</if>
+                <if test="dto.credit != null"> and wm.credit = #{dto.credit}</if>
+                   <if test="dto.userName != null"> and wm.user_name = #{dto.userName}</if>
+                <if test="dto.createTime != null"> and wm.create_time = #{dto.createTime}</if>
+                <if test="dto.updateTime != null"> and wm.update_time = #{dto.updateTime}</if>
+                <if test="dto.wname != null"> and wm.wname = #{dto.wname}</if>
+                <if test="dto.userId != null"> and wm.user_id = #{dto.userId}</if>
+                <if test="dto.createName != null"> and wm.create_name = #{dto.createName}</if>
+                <if test="dto.updateId != null"> and wm.update_id = #{dto.updateId}</if>
+                <if test="dto.updateName != null"> and wm.update_name = #{dto.updateName}</if>
+    </select>
+
+    <select id="getPageManage"  resultType="com.xinshijie.wiki.vo.ManageVo">
+        <include refid="selectManageVo"/> ${ew.customSqlSegment}
+    </select>
+
+    <update id="edit"  >
+        update  wiki_manage
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="wid != null">wid = #{wid},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="ranks != null">ranks = #{ranks},</if>
+                    <if test="credit != null">credit = #{credit},</if>
+                    <if test="userName != null and userName != ''">user_name = #{userName},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="wname != null and wname != ''">wname = #{wname},</if>
+                    <if test="userId != null">user_id = #{userId},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+            <if test="types != null">types = #{types},</if>
+
+        </trim>
+        where   id=#{id}                    
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_manage where  id = #{id}                    
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.ManageVo">
+        <include refid="selectManageVo"/>   wm.id = #{id}
+    </select>
+
+    <delete id="deleteManageByIdWid" >
+        delete from wiki_Manage where id = #{id} and wid=#{wid}
+    </delete>
+
+    <select id="selectByWidUserId"  resultType="com.xinshijie.wiki.vo.ManageVo">
+        <include refid="selectManageVo"/>
+        and wm.wid = #{wid} and wm.user_id=#{userId}
+    </select>
+    <select id="countByWidUserId" resultType="Long" >
+        select count(id) from wiki_Manage where user_id =#{userId}
+        <if test="wid != null"> and wid = #{wid}</if>
+    </select>
+
+    <update id="updateCount"  >
+        update  wiki_manage
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="credit != null">credit =credit+ #{credit},</if>
+            <if test="countAudit != null">count_audit =count_audit+ #{countAudit},</if>
+            <if test="countAuditYes != null">count_audit_yes =count_audit_yes+ #{countAuditNo},</if>
+            <if test="countAuditNo != null">count_audit_no =count_audit_no+ #{countAuditNo},</if>
+            <if test="countAddType != null">count_add_type =count_add_type+ #{countAddType},</if>
+            <if test="countComment != null">count_comment =count_comment+ #{countComment},</if>
+            <if test="countDiscuss != null">count_discuss =count_discuss+ #{countDiscuss},</if>
+            <if test="countDel != null">count_del =count_del+ #{countDel},</if>
+            <if test="countEdit != null">count_edit =count_edit+ #{countEdit},</if>
+            <if test="countElement != null">count_element = count_element+#{countElement},</if>
+            </trim>
+        where   wid=#{wid} and user_id=#{userId}
+    </update>
+    <update id="updateRank"  >
+        update  wiki_manage
+        set ranks = ranks + 1
+        where   id=#{id} and credit>#{upgrade}
+    </update>
+
+</mapper>

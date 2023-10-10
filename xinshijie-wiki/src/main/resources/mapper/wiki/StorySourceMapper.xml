@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.StorySourceMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xinshijie.wiki.vo.StorySourceVo">
+        <id column="id" property="id" />
+        <result column="types" property="types" />
+        <result column="name" property="name" />
+        <result column="url" property="url" />
+        <result column="remark" property="remark" />
+        <result column="create_id" property="createId" />
+        <result column="create_name" property="createName" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_name" property="updateName" />
+        <result column="update_time" property="updateTime" />
+        <result column="wid" property="wid" />
+        <result column="sid" property="sid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, types, name, url, remark, create_id, create_name, create_time, update_id, update_name, update_time, wid,sid
+    </sql>
+
+    <sql id="selectStorySourceVo">
+        select
+        id,
+        types,
+        name,
+        url,
+        remark,
+        create_id,
+        create_name,
+        create_time,
+        update_id,
+        update_name,
+        update_time,
+        wid,
+        sid
+       from wiki_story_source
+    </sql>
+
+    <select id="selectStorySourceList" parameterType="com.xinshijie.wiki.dto.StorySourceDto" resultMap="BaseResultMap">
+        <include refid="selectStorySourceVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="types != null "> and types = #{types}</if>
+         <if test="name != null  and name != ''"> and name = #{name}</if>
+         <if test="url != null  and url != ''"> and url = #{url}</if>
+         <if test="remark != null  and remark != ''"> and remark = #{remark}</if>
+         <if test="createId != null "> and create_id = #{createId}</if>
+         <if test="createName != null  and createName != ''"> and create_name = #{createName}</if>
+         <if test="createTime != null "> and create_time = #{createTime}</if>
+         <if test="updateId != null "> and update_id = #{updateId}</if>
+         <if test="updateName != null  and updateName != ''"> and update_name = #{updateName}</if>
+         <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         <if test="wid != null "> and wid = #{wid}</if>
+            <if test="sid != null "> and sid = #{sid}</if>
+        </where>
+    </select>
+
+    <select id="selectPageStorySource"  resultMap="BaseResultMap">
+        <include refid="selectStorySourceVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.types != null"> and types = #{dto.types}</if>
+                <if test="dto.name != null"> and name = #{dto.name}</if>
+                <if test="dto.url != null"> and url = #{dto.url}</if>
+                <if test="dto.remark != null"> and remark = #{dto.remark}</if>
+                <if test="dto.createId != null"> and create_id = #{dto.createId}</if>
+                <if test="dto.createName != null"> and create_name = #{dto.createName}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.updateId != null"> and update_id = #{dto.updateId}</if>
+                <if test="dto.updateName != null"> and update_name = #{dto.updateName}</if>
+                <if test="dto.updateTime != null"> and update_time = #{dto.updateTime}</if>
+                <if test="dto.wid != null"> and wid = #{dto.wid}</if>
+            <if test="dto.sid != null"> and sid = #{dto.sid}</if>
+        </where>
+    </select>
+
+    <select id="getPageStorySource"  resultMap="BaseResultMap">
+        <include refid="selectStorySourceVo"/> ${ew.customSqlSegment}
+    </select>
+
+    <update id="edit"  >
+        update  wiki_story_source
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="types != null">types = #{types},</if>
+                    <if test="name != null and name != ''">name = #{name},</if>
+                    <if test="url != null and url != ''">url = #{url},</if>
+                    <if test="remark != null and remark != ''">remark = #{remark},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="wid != null">wid = #{wid},</if>
+        </trim>
+        where   id=#{id}              
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_story_source where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultMap="BaseResultMap">
+        <include refid="selectStorySourceVo"/> where  id = #{id}
+    </select>
+    <delete id="deleteBySidWid"  >
+        delete FROM  wiki_story_source where  wid = #{wid} and sid=#{sid}
+    </delete>
+    <insert id="insetList" parameterType="java.util.List"  >
+        insert  into wiki_story_source (
+        types, name, url, remark, create_id,
+        create_name, create_time, update_id, update_name, update_time, wid,sid
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.types}, #{item.name}, #{item.url},#{item.remark}, #{item.createId}, #{item.createName},
+             #{item.createTime}, #{item.updateId},  #{item.updateName},#{item.updateTime},
+            #{item.wid}, #{item.sid}
+            )
+        </foreach>
+    </insert>
+</mapper>

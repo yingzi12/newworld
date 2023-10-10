@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.DraftElementMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xinshijie.wiki.vo.DraftElementVo">
+        <id column="id" property="id" />
+        <result column="wid" property="wid" />
+        <result column="wname" property="wname" />
+        <result column="title" property="title" />
+        <result column="intro" property="intro" />
+        <result column="softtype" property="softtype" />
+        <result column="version" property="version" />
+        <result column="status" property="status" />
+        <result column="tags" property="tags" />
+        <result column="is_delete" property="isDelete" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="create_name" property="createName" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_name" property="updateName" />
+        <result column="image_urls" property="imageUrls" />
+        <result column="source_eid" property="sourceEid" />
+        <result column="is_new" property="isNew" />
+        <result column="cause_number" property="causeNumber" />
+        <result column="cause_content" property="causeContent" />
+        <result column="idLabels" property="idLabels" />
+        <result column="extra" property="extra" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,title,intro, wid, wname, softtype, version, status, tags, is_delete, create_id, create_time, create_name, update_id, update_time, update_name, image_urls, source_eid, is_new, cause_number, cause_content,extra,source,page_html
+    </sql>
+
+    <sql id="selectDraftElementVo">
+        select
+        id,
+        wid,
+        title,
+        intro,
+        wname,
+        softtype,
+        version,
+        status,
+        tags,
+        is_delete,
+        create_id,
+        create_time,
+        create_name,
+        update_id,
+        update_time,
+        update_name,
+        image_urls,
+        source_eid,
+        is_new,
+        cause_number,
+        cause_content,
+        extra,
+               source,
+               page_html
+       from wiki_draft_element
+    </sql>
+
+    <select id="selectDraftElementList" parameterType="com.xinshijie.wiki.dto.DraftElementFindDto" resultMap="BaseResultMap">
+        select we.id,we.title,ww.name as wname,we.wid ,we.softtype ,we.status ,we.intro ,we.image_urls ,we.create_time,we.create_name,we.is_new,we.source_eid,we.cause_number,we.update_time,we.update_name,we.audit_content,we.cause_content,we.source, group_concat(concat(wc.id,"$$",wc.label) separator ',') as idLabels
+        from wiki_draft_element we , wiki_draft_category wec,wiki_category wc,wiki_world ww where  <if test="wid != null ">  wec.wid = #{wid} and we.wid =  #{wid} and ww.id=#{wid} and </if>  wec.wid = we.wid and we.id=wec.eid  and  wec.cid =wc.id and ww.id=we.wid
+        <if test="intro != null  and intro != ''"> and we.intro like concat('%', #{intro}, '%')</if>
+        <if test="title != null  and title != ''"> and we.title like concat('%', #{title}, '%')</if>
+        <if test="softtype != null "> and we.softtype = #{softtype}</if>
+        <if test="createId != null "> and we.create_id = #{createId}</if>
+        <if test="status != null "> and we.status = #{status}</if>
+        <if test="auditStatus != null and auditStatus ==0 "> and we.status = 1</if>
+        <if test="auditStatus != null and auditStatus !=0 "> and we.status in (2,3) </if>
+        <if test="tags != null  and tags != ''"> and we.tags = #{tags}</if>
+        <if test="isDelete != null "> and we.is_delete = #{isDelete}</if>
+        group by we.id,we.title ,we.wname ,we.wid ,we.softtype ,we.status ,we.intro ,we.image_urls,we.create_time,we.create_name,we.is_new,we.source_eid, we.cause_number,we.cause_content,we.update_time,we.update_name,we.audit_content,we.source
+    </select>
+
+    <select id="selectPageDraftElement"  resultMap="BaseResultMap">
+        <include refid="selectDraftElementVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.wid != null"> and wid = #{dto.wid}</if>
+                <if test="dto.wname != null"> and wname = #{dto.wname}</if>
+                <if test="dto.softtype != null"> and softtype = #{dto.softtype}</if>
+                <if test="dto.version != null"> and version = #{dto.version}</if>
+                <if test="dto.status != null"> and status = #{dto.status}</if>
+                <if test="dto.tags != null"> and tags = #{dto.tags}</if>
+                <if test="dto.isDelete != null"> and is_delete = #{dto.isDelete}</if>
+                <if test="dto.createId != null"> and create_id = #{dto.createId}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.createName != null"> and create_name = #{dto.createName}</if>
+                <if test="dto.updateId != null"> and update_id = #{dto.updateId}</if>
+                <if test="dto.updateTime != null"> and update_time = #{dto.updateTime}</if>
+                <if test="dto.updateName != null"> and update_name = #{dto.updateName}</if>
+                <if test="dto.imageUrls != null"> and image_urls = #{dto.imageUrls}</if>
+                <if test="dto.sourceEid != null"> and source_eid = #{dto.sourceEid}</if>
+                <if test="dto.isNew != null"> and is_new = #{dto.isNew}</if>
+                <if test="dto.causeNumber != null"> and cause_number = #{dto.causeNumber}</if>
+                <if test="dto.causeContent != null"> and cause_content = #{dto.causeContent}</if>
+        </where>
+    </select>
+
+    <select id="getPageDraftElement"  resultMap="BaseResultMap">
+        <include refid="selectDraftElementVo"/> ${ew.customSqlSegment}
+    </select>
+
+    <update id="edit"  >
+        update  wiki_draft_element
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="wid != null">wid = #{wid},</if>
+                    <if test="wname != null and wname != ''">wname = #{wname},</if>
+                    <if test="softtype != null">softtype = #{softtype},</if>
+                    <if test="version != null">version = #{version},</if>
+                    <if test="status != null">status = #{status},</if>
+                    <if test="tags != null and tags != ''">tags = #{tags},</if>
+                    <if test="isDelete != null">is_delete = #{isDelete},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+                    <if test="imageUrls != null and imageUrls != ''">image_urls = #{imageUrls},</if>
+                    <if test="sourceEid != null">source_eid = #{sourceEid},</if>
+                    <if test="isNew != null">is_new = #{isNew},</if>
+                    <if test="pageHtml != null">page_html = #{pageHtml},</if>
+                    <if test="causeNumber != null">cause_number = #{causeNumber},</if>
+                    <if test="causeContent != null and causeContent != ''">cause_content = #{causeContent},</if>
+            <if test="extra != null and extra != ''">extra = #{extra},</if>
+        </trim>
+        where   id=#{id}                     
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_draft_element where  id = #{id}                     
+    </delete>
+
+    <select id="getInfo"  resultMap="BaseResultMap">
+        <include refid="selectDraftElementVo"/> where  id = #{id}                     
+    </select>
+
+    <select id="selectByIdWidUserId"  resultType="com.xinshijie.wiki.vo.DraftElementVo">
+        <include refid="selectDraftElementVo"/>
+        where id = #{id} and wid=#{wid}
+        <if test="userId != null">and create_id = #{userId}</if>
+    </select>
+
+
+    <update id="updateStatus" parameterType="com.xinshijie.wiki.dto.DraftElementUpdateDto">
+        update wiki_draft_element
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="status != null">status = #{status},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateName != null">update_name = #{updateName},</if>
+            <if test="auditNumber != null">audit_number = #{auditNumber},</if>
+            <if test="auditContent != null">audit_content = #{auditContent},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+        </trim>
+        where id = #{id} and wid= #{wid}
+        <if test="userId != null">and create_id = #{userId}</if>
+    </update>
+    <delete id="deleteByIdWidUserId" parameterType="Long">
+        delete from wiki_draft_element where id = #{id} and wid = #{wid}
+        <if test="userId != null">and create_id = #{userId}</if>
+    </delete>
+
+    <update id="autorUpdateIss" parameterType="Integer">
+        update wiki_draft_element set
+                                      status =#{ updateStatus } ,
+                                      update_time=now(),
+                                      update_id= -1,
+                                      update_name='系统自动'
+        where status =#{ nowStatus} and end_time >now()
+    </update>
+    <select id="findOvertimeAudit" resultType="com.xinshijie.wiki.vo.DraftElementVo">
+        select wid,id,status FROM  wiki_draft_element WHERE status =6 and end_time >now() Limit #{size}
+    </select>
+    <select id="findOvertimeIssous" resultType="com.xinshijie.wiki.vo.DraftElementVo">
+        select wid,id,status FROM  wiki_draft_element WHERE status =5 and end_time >now() Limit #{size}
+    </select>
+</mapper>

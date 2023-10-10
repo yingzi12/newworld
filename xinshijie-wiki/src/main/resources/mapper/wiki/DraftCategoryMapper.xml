@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.DraftCategoryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xinshijie.wiki.vo.DraftCategoryVo">
+        <id column="id" property="id" />
+        <result column="wid" property="wid" />
+        <result column="eid" property="eid" />
+        <result column="cid" property="cid" />
+        <result column="create_id" property="createId" />
+        <result column="create_name" property="createName" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_name" property="updateName" />
+        <result column="source_eid" property="sourceEid" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, wid, eid, cid, create_id, create_name, create_time, update_id, update_time, update_name,source_cid
+    </sql>
+
+    <sql id="selectDraftCategoryVo">
+        select
+        id,
+        wid,
+        eid,
+        cid,
+        create_id,
+        create_name,
+        create_time,
+        update_id,
+        update_time,
+        update_name,
+        source_cid
+       from wiki_Draft_category
+    </sql>
+
+    <select id="selectDraftCategoryList" parameterType="com.xinshijie.wiki.dto.DraftCategoryDto" resultMap="BaseResultMap">
+        <include refid="selectDraftCategoryVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="wid != null "> and wid = #{wid}</if>
+         <if test="eid != null "> and eid = #{eid}</if>
+         <if test="cid != null "> and cid = #{cid}</if>
+         <if test="createId != null "> and create_id = #{createId}</if>
+         <if test="createName != null  and createName != ''"> and create_name = #{createName}</if>
+         <if test="createTime != null "> and create_time = #{createTime}</if>
+         <if test="updateId != null "> and update_id = #{updateId}</if>
+         <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         <if test="updateName != null  and updateName != ''"> and update_name = #{updateName}</if>
+        </where>
+    </select>
+
+    <select id="selectPageDraftCategory"  resultMap="BaseResultMap">
+        <include refid="selectDraftCategoryVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.wid != null"> and wid = #{dto.wid}</if>
+                <if test="dto.eid != null"> and eid = #{dto.eid}</if>
+                <if test="dto.cid != null"> and cid = #{dto.cid}</if>
+                <if test="dto.createId != null"> and create_id = #{dto.createId}</if>
+                <if test="dto.createName != null"> and create_name = #{dto.createName}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.updateId != null"> and update_id = #{dto.updateId}</if>
+                <if test="dto.updateTime != null"> and update_time = #{dto.updateTime}</if>
+                <if test="dto.updateName != null"> and update_name = #{dto.updateName}</if>
+        </where>
+    </select>
+
+    <select id="getPageDraftCategory"  resultMap="BaseResultMap">
+        <include refid="selectDraftCategoryVo"/> ${ew.customSqlSegment}
+    </select>
+
+    <update id="edit"  >
+        update  wiki_Draft_category
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="wid != null">wid = #{wid},</if>
+                    <if test="eid != null">eid = #{eid},</if>
+                    <if test="cid != null">cid = #{cid},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+        </trim>
+        where   id=#{id}            
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_Draft_category where  id = #{id}            
+    </delete>
+
+    <select id="getInfo"  resultMap="BaseResultMap">
+        <include refid="selectDraftCategoryVo"/> where  id = #{id}            
+    </select>
+
+
+    <select id="selectCategoryLab" resultType="com.xinshijie.wiki.vo.CategoryVo">
+        select wc.id,wc.label,wc.pid,wc.code,CONCAT(wc.id,"$$",wc.label) as value,wc.pidpath from wiki_Draft_category wec ,wiki_category wc
+        where wec.wid =#{wid}  and wec.eid=#{eid} and wec.cid =wc.id
+    </select>
+
+    <delete id="deleteByEidWid"  >
+        delete FROM  wiki_draft_category where  wid = #{wid} and eid=#{eid}
+    </delete>
+    <insert id="insetList" parameterType="java.util.List"  >
+        insert  into wiki_Draft_category (
+        wid, eid, cid, create_id, create_name, create_time, update_id, update_time, update_name,source_eid
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.wid}, #{item.eid}, #{item.cid}, #{item.createId}, #{item.createName}, #{item.createTime}, #{item.updateId}, #{item.updateTime}, #{item.updateName}, #{item.sourceEid}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

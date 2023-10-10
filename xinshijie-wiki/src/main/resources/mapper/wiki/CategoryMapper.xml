@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.CategoryMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xinshijie.wiki.vo.CategoryVo">
+        <id column="id" property="id" />
+        <result column="wid" property="wid" />
+        <result column="label" property="label" />
+        <result column="pid" property="pid" />
+        <result column="tier" property="tier" />
+        <result column="code" property="code" />
+<!--        <result column="create_id" property="createId" />-->
+<!--        <result column="create_name" property="createName" />-->
+<!--        <result column="create_time" property="createTime" />-->
+<!--        <result column="update_id" property="updateId" />-->
+<!--        <result column="update_time" property="updateTime" />-->
+<!--        <result column="update_name" property="updateName" />-->
+        <result column="pcode" property="pcode" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, wid, label, pid, tier, code, create_id, create_name, create_time, update_id, update_time, update_name, pcode
+    </sql>
+
+    <sql id="selectCategoryVo">
+        select
+        id,
+        wid,
+        label,
+        pid,
+        tier,
+        code,
+        create_id,
+        create_name,
+        create_time,
+        update_id,
+        update_time,
+        update_name,
+        pcode
+       from wiki_category
+    </sql>
+
+    <select id="selectCategoryList" parameterType="com.xinshijie.wiki.dto.CategoryDto" resultMap="BaseResultMap">
+        <include refid="selectCategoryVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="wid != null "> and wid = #{wid}</if>
+         <if test="label != null  and label != ''"> and label = #{label}</if>
+         <if test="pid != null "> and pid = #{pid}</if>
+         <if test="tier != null "> and tier = #{tier}</if>
+         <if test="code != null  and code != ''"> and code = #{code}</if>
+         <if test="createId != null "> and create_id = #{createId}</if>
+         <if test="createName != null  and createName != ''"> and create_name = #{createName}</if>
+         <if test="createTime != null "> and create_time = #{createTime}</if>
+         <if test="updateId != null "> and update_id = #{updateId}</if>
+         <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         <if test="updateName != null  and updateName != ''"> and update_name = #{updateName}</if>
+         <if test="pcode != null  and pcode != ''"> and pcode = #{pcode}</if>
+        </where>
+    </select>
+    <select id="selectSinplyCategoryList" parameterType="Integer" resultType="com.xinshijie.wiki.vo.CategorySimplyVo">
+       Select id,label,pid from wiki_category where  wid = #{wid}
+    </select>
+    <select id="selectPageCategory"  resultMap="BaseResultMap">
+        <include refid="selectCategoryVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.wid != null"> and wid = #{dto.wid}</if>
+                <if test="dto.label != null"> and label = #{dto.label}</if>
+                <if test="dto.pid != null"> and pid = #{dto.pid}</if>
+                <if test="dto.tier != null"> and tier = #{dto.tier}</if>
+                <if test="dto.code != null"> and code = #{dto.code}</if>
+                <if test="dto.createId != null"> and create_id = #{dto.createId}</if>
+                <if test="dto.createName != null"> and create_name = #{dto.createName}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.updateId != null"> and update_id = #{dto.updateId}</if>
+                <if test="dto.updateTime != null"> and update_time = #{dto.updateTime}</if>
+                <if test="dto.updateName != null"> and update_name = #{dto.updateName}</if>
+                <if test="dto.pcode != null"> and pcode = #{dto.pcode}</if>
+        </where>
+    </select>
+
+    <select id="getPageCategory"  resultMap="BaseResultMap">
+        <include refid="selectCategoryVo"/> ${ew.customSqlSegment}
+    </select>
+
+    <update id="edit"  >
+        update  wiki_category
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="wid != null">wid = #{wid},</if>
+                    <if test="label != null and label != ''">label = #{label},</if>
+                    <if test="pid != null">pid = #{pid},</if>
+                    <if test="tier != null">tier = #{tier},</if>
+                    <if test="code != null and code != ''">code = #{code},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+                    <if test="pcode != null and pcode != ''">pcode = #{pcode},</if>
+        </trim>
+        where   id=#{id}               
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_category where  id = #{id}               
+    </delete>
+
+    <select id="getInfo"  resultMap="BaseResultMap">
+     select * from wiki_category  where  id = #{id}
+    </select>
+    <select id="selectByWid"  resultType="com.xinshijie.wiki.vo.CategoryTreeVo">
+        select id,label,code,pid  from wiki_category where wid=#{wid}
+    </select>
+    <select id="selectByWidTier"  resultType="com.xinshijie.wiki.vo.CategoryTreeVo">
+        select id,label,code,pid  from wiki_category where wid=#{wid} and tier &lt;= #{tier}
+    </select>
+    <select id="selectByWidLabel" parameterType="Category" resultMap="BaseResultMap">
+        <include refid="selectCategoryVo"/>
+        <where>
+            <if test="wid != null "> and wid = #{wid}</if>
+            <if test="pid != null "> and pid = #{pid}</if>
+            <if test="label != null  and label != ''"> and label =  #{label}</if>
+        </where>
+    </select>
+    <select id="countByWidLabel" parameterType="Category" resultType="java.lang.Integer">
+        select count(1) from wiki_category
+        <where>
+            <if test="wid != null "> and wid = #{wid}</if>
+            <if test="pid != null "> and pid = #{pid}</if>
+            <if test="label != null  and label != ''"> and label =  #{label}</if>
+        </where>
+    </select>
+    <select id="findNameAllByIds" resultType="String">
+        select label from wiki_category
+        where id in
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </select>
+    <select id="findPidpathByIds" resultType="String">
+        select pidpath from wiki_category
+        where id in
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </select>
+</mapper>

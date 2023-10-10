@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.ApplyManageMapper">
+
+    <select id="selectByWid"  resultType="com.xinshijie.wiki.vo.ApplyManageVo">
+        select * from wiki_apply_manage where wid=#{wid}
+        <if test="applyId != null "> and applyId = #{userId}</if>
+        <if test="status != null "> and status = #{status}</if>
+        <if test="notStatus != null "> and status != #{notStatus}</if>
+    </select>
+
+    <select id="selectByUserid"  resultType="com.xinshijie.wiki.vo.ApplyManageVo">
+        select * from wiki_apply_manage where applyId=#{userId}
+    </select>
+    <select id="selectWidUserId"  resultType="com.xinshijie.wiki.vo.ApplyManageVo">
+        select * from wiki_apply_author where   wid=#{wid}
+        <if test="status != null "> and status = #{status}</if>
+        <if test="userId != null "> and applyId = #{userId}</if>
+
+    </select>
+
+    <update id="audit">
+        update wiki_apply_manage
+            set status=#{status},
+                audit_time=#{auditTime},
+                audit_explain=#{auditExplain},
+                audit_name=#{auditName},
+                audit_id=#{auditId}
+            where id=#{id}
+    </update>
+    <update id="close">
+        update wiki_apply_manage
+        set status=3,
+            operator_time=SYSDATE()
+        where id=#{id}
+    </update>
+</mapper>

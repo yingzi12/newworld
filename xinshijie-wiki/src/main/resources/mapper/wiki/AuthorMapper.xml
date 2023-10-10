@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.AuthorMapper">
+
+    <sql id="selectAuthorVo">
+        select *
+        from (select wa.id,
+                     wa.wid,
+                     wa.create_id,
+                     wa.ranks,
+                     wa.credit,
+                     wa.user_name,
+                     wa.create_time,
+                     wa.update_time,
+                     wa.wname,
+                     wa.user_id,
+                     wa.create_name,
+                     wa.update_id,
+                     wa.update_name,
+                     wa.types,
+                     wa.sid,
+                     wa.sname,
+                     wa.count_edit,  wa.count_comment,wa.count_audit,wa.count_discuss, wa.count_chapter,
+                     wa.count_del,wa.count_audit_yes,wa.count_audit_no,
+                     su.sign
+              from wiki_author wa,
+                   sys_user su
+              where wa.user_id = su.user_id and wa.sid=#{sid}
+              ) as wa
+    </sql>
+
+    <select id="selectAuthorList" parameterType="com.xinshijie.wiki.dto.AuthorDto" resultType="com.xinshijie.wiki.vo.AuthorVo">
+        <include refid="selectAuthorVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="wid != null "> and wid = #{wid}</if>
+         <if test="createId != null "> and create_id = #{createId}</if>
+         <if test="ranks != null "> and ranks = #{ranks}</if>
+         <if test="credit != null "> and credit = #{credit}</if>
+         <if test="userName != null  and userName != ''"> and user_name = #{userName}</if>
+         <if test="createTime != null "> and create_time = #{createTime}</if>
+         <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         <if test="wname != null  and wname != ''"> and wname = #{wname}</if>
+         <if test="userId != null "> and user_id = #{userId}</if>
+         <if test="createName != null  and createName != ''"> and create_name = #{createName}</if>
+         <if test="updateId != null "> and update_id = #{updateId}</if>
+         <if test="updateName != null  and updateName != ''"> and update_name = #{updateName}</if>
+         <if test="types != null "> and types = #{types}</if>
+         <if test="sid != null "> and sid = #{sid}</if>
+         <if test="sname != null  and sname != ''"> and sname = #{sname}</if>
+        </where>
+    </select>
+
+    <select id="selectPageAuthor"  resultType="com.xinshijie.wiki.vo.AuthorVo">
+        <include refid="selectAuthorVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.wid != null"> and wid = #{dto.wid}</if>
+                <if test="dto.createId != null"> and create_id = #{dto.createId}</if>
+                <if test="dto.ranks != null"> and ranks = #{dto.ranks}</if>
+                <if test="dto.credit != null"> and credit = #{dto.credit}</if>
+
+                <if test="dto.userName != null"> and user_name = #{dto.userName}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.updateTime != null"> and update_time = #{dto.updateTime}</if>
+                <if test="dto.wname != null"> and wname = #{dto.wname}</if>
+                <if test="dto.userId != null"> and user_id = #{dto.userId}</if>
+                <if test="dto.createName != null"> and create_name = #{dto.createName}</if>
+                <if test="dto.updateId != null"> and update_id = #{dto.updateId}</if>
+                <if test="dto.updateName != null"> and update_name = #{dto.updateName}</if>
+                <if test="dto.types != null"> and types = #{dto.types}</if>
+                <if test="dto.sid != null"> and sid = #{dto.sid}</if>
+                <if test="dto.sname != null"> and sname = #{dto.sname}</if>
+        </where>
+    </select>
+
+    <select id="getPageAuthor"  resultType="com.xinshijie.wiki.vo.AuthorVo">
+        <include refid="selectAuthorVo"/> ${ew.customSqlSegment}
+    </select>
+
+
+    <update id="edit"  >
+        update  wiki_author
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="wid != null">wid = #{wid},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="ranks != null">ranks = #{ranks},</if>
+                    <if test="credit != null">credit = #{credit},</if>
+
+                    <if test="userName != null and userName != ''">user_name = #{userName},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="wname != null and wname != ''">wname = #{wname},</if>
+                    <if test="userId != null">user_id = #{userId},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+                    <if test="types != null">types = #{types},</if>
+
+                    <if test="sid != null">sid = #{sid},</if>
+                    <if test="sname != null and sname != ''">sname = #{sname},</if>
+        </trim>
+        where   id=#{id}                          
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_author where  id = #{id}                          
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.AuthorVo">
+        <include refid="selectAuthorVo"/> where  id = #{id}                          
+    </select>
+
+    <select id="getInfoBySid"  resultType="com.xinshijie.wiki.vo.AuthorVo">
+        <include refid="selectAuthorVo"/> where  id = #{id} and sid=#{sid}
+    </select>
+    <delete id="deleteByIdSid" >
+        delete from wiki_author where id = #{id} and sid=#{sid}
+    </delete>
+
+    <select id="selectBySidUserId"  resultType="com.xinshijie.wiki.vo.AuthorVo">
+        <include refid="selectAuthorVo"/>
+        where sid = #{sid} and user_id=#{userId}
+    </select>
+    <select id="countBySidUserId" resultType="Long" >
+        select count(id) from wiki_author where user_id =#{userId}
+        <if test="sid != null"> and sid = #{sid}</if>
+    </select>
+
+    <update id="updateCount"  >
+        update  wiki_author
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="credit != null">credit =credit+ #{credit},</if>
+            <if test="countAudit != null">count_audit =count_audit+ #{countAudit},</if>
+            <if test="countAuditYes != null">count_audit_yes =count_audit_yes+ #{countAuditNo},</if>
+            <if test="countAuditNo != null">count_audit_no =count_audit_no+ #{countAuditNo},</if>
+            <if test="countComment != null">count_comment =count_comment+ #{countComment},</if>
+            <if test="countDiscuss != null">count_discuss =count_discuss+ #{countDiscuss},</if>
+            <if test="countDel != null">count_del =count_del+ #{countDel},</if>
+            <if test="countEdit != null">count_edit =count_edit+ #{countEdit},</if>
+            <if test="countChapter != null">count_chapter = count_chapter+#{countChapter},</if>
+        </trim>
+        where   sid=#{sid} and user_id=#{userId}
+    </update>
+    <select id="selectBySid"  resultType="com.xinshijie.wiki.vo.AuthorVo">
+        <include refid="selectAuthorVo"/>
+        where sid = #{sid}
+    </select>
+    <update id="updateRank"  >
+        update  wiki_author
+        set ranks = ranks + 1
+        where   id=#{id} and credit>#{upgrade}
+    </update>
+</mapper>

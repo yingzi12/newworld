@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.DraftHeadGeographyMapper">
+
+    <sql id="selectDraftHeadGeography">
+        select
+                  id,
+                wid,
+                weid,
+                name,
+                biography,
+                extra,
+                kind,
+                feature,
+                climate,
+                living_race,
+                affiliated_forces,
+                main_character,
+                specialty,
+                environment,
+                img_url,
+                district_belong,
+                district_belong_id,
+                create_id,
+                create_name,
+                create_time,
+                update_id,
+                update_name,
+                update_time,
+                source_ehid,
+                diff,
+                source_eid,
+                serial,
+                is_delete,
+                is_new,
+                is_update,
+                souce_cid
+        from wiki_draft_head_geography
+    </sql>
+
+    <select id="selectListDraftHeadGeography" parameterType="com.xinshijie.wiki.dto.DraftHeadGeographyDto" resultType="com.xinshijie.wiki.vo.DraftHeadGeographyVo">
+        <include refid="selectDraftHeadGeography"/>
+        <where>
+                    <if test="id !=null ">and id= #{id}</if>
+                    <if test="wid !=null ">and wid= #{wid}</if>
+                    <if test="weid !=null ">and weid= #{weid}</if>
+                    <if test="name !=null ">and name= #{name}</if>
+                    <if test="biography !=null ">and biography= #{biography}</if>
+                    <if test="extra !=null ">and extra= #{extra}</if>
+                    <if test="kind !=null ">and kind= #{kind}</if>
+                    <if test="feature !=null ">and feature= #{feature}</if>
+                    <if test="climate !=null ">and climate= #{climate}</if>
+                    <if test="livingRace !=null ">and living_race= #{livingRace}</if>
+                    <if test="affiliatedForces !=null ">and affiliated_forces= #{affiliatedForces}</if>
+                    <if test="mainCharacter !=null ">and main_character= #{mainCharacter}</if>
+                    <if test="specialty !=null ">and specialty= #{specialty}</if>
+                    <if test="environment !=null ">and environment= #{environment}</if>
+                    <if test="imgUrl !=null ">and img_url= #{imgUrl}</if>
+                    <if test="districtBelong !=null ">and district_belong= #{districtBelong}</if>
+                    <if test="districtBelongId !=null ">and district_belong_id= #{districtBelongId}</if>
+                    <if test="createId !=null ">and create_id= #{createId}</if>
+                    <if test="createName !=null ">and create_name= #{createName}</if>
+                    <if test="createTime !=null ">and create_time= #{createTime}</if>
+                    <if test="updateId !=null ">and update_id= #{updateId}</if>
+                    <if test="updateName !=null ">and update_name= #{updateName}</if>
+                    <if test="updateTime !=null ">and update_time= #{updateTime}</if>
+                    <if test="sourceEhid !=null ">and source_ehid= #{sourceEhid}</if>
+                    <if test="diff !=null ">and diff= #{diff}</if>
+                    <if test="sourceEid !=null ">and source_eid= #{sourceEid}</if>
+                    <if test="serial !=null ">and serial= #{serial}</if>
+                    <if test="isDelete !=null ">and is_delete= #{isDelete}</if>
+                    <if test="isNew !=null ">and is_new= #{isNew}</if>
+                    <if test="isUpdate !=null ">and is_update= #{isUpdate}</if>
+                    <if test="souceCid !=null ">and souce_cid= #{souceCid}</if>
+        </where>
+    </select>
+
+    <select id="selectPageDraftHeadGeography"  resultType="com.xinshijie.wiki.vo.DraftHeadGeographyVo">
+        <include refid="selectDraftHeadGeography"/>
+        <where>
+                    <if test="dto.id !=null ">and id= #{dto.id}</if>
+                    <if test="dto.wid !=null ">and wid= #{dto.wid}</if>
+                    <if test="dto.weid !=null ">and weid= #{dto.weid}</if>
+                    <if test="dto.name !=null ">and name= #{dto.name}</if>
+                    <if test="dto.biography !=null ">and biography= #{dto.biography}</if>
+                    <if test="dto.extra !=null ">and extra= #{dto.extra}</if>
+                    <if test="dto.kind !=null ">and kind= #{dto.kind}</if>
+                    <if test="dto.feature !=null ">and feature= #{dto.feature}</if>
+                    <if test="dto.climate !=null ">and climate= #{dto.climate}</if>
+                    <if test="dto.livingRace !=null ">and living_race= #{dto.livingRace}</if>
+                    <if test="dto.affiliatedForces !=null ">and affiliated_forces= #{dto.affiliatedForces}</if>
+                    <if test="dto.mainCharacter !=null ">and main_character= #{dto.mainCharacter}</if>
+                    <if test="dto.specialty !=null ">and specialty= #{dto.specialty}</if>
+                    <if test="dto.environment !=null ">and environment= #{dto.environment}</if>
+                    <if test="dto.imgUrl !=null ">and img_url= #{dto.imgUrl}</if>
+                    <if test="dto.districtBelong !=null ">and district_belong= #{dto.districtBelong}</if>
+                    <if test="dto.districtBelongId !=null ">and district_belong_id= #{dto.districtBelongId}</if>
+                    <if test="dto.createId !=null ">and create_id= #{dto.createId}</if>
+                    <if test="dto.createName !=null ">and create_name= #{dto.createName}</if>
+                    <if test="dto.createTime !=null ">and create_time= #{dto.createTime}</if>
+                    <if test="dto.updateId !=null ">and update_id= #{dto.updateId}</if>
+                    <if test="dto.updateName !=null ">and update_name= #{dto.updateName}</if>
+                    <if test="dto.updateTime !=null ">and update_time= #{dto.updateTime}</if>
+                    <if test="dto.sourceEhid !=null ">and source_ehid= #{dto.sourceEhid}</if>
+                    <if test="dto.diff !=null ">and diff= #{dto.diff}</if>
+                    <if test="dto.sourceEid !=null ">and source_eid= #{dto.sourceEid}</if>
+                    <if test="dto.serial !=null ">and serial= #{dto.serial}</if>
+                    <if test="dto.isDelete !=null ">and is_delete= #{dto.isDelete}</if>
+                    <if test="dto.isNew !=null ">and is_new= #{dto.isNew}</if>
+                    <if test="dto.isUpdate !=null ">and is_update= #{dto.isUpdate}</if>
+                    <if test="dto.souceCid !=null ">and souce_cid= #{dto.souceCid}</if>
+        </where>
+    </select>
+
+    <select id="getPageDraftHeadGeography"  resultType="com.xinshijie.wiki.vo.DraftHeadGeographyVo">
+        <include refid="selectDraftHeadGeography"/> ${ew.customSqlSegment}
+    </select>
+
+    <insert id="add"  >
+        insert into wiki_draft_head_geography (
+                  id,
+                wid,
+                weid,
+                name,
+                biography,
+                extra,
+                kind,
+                feature,
+                climate,
+                living_race,
+                affiliated_forces,
+                main_character,
+                specialty,
+                environment,
+                img_url,
+                district_belong,
+                district_belong_id,
+                create_id,
+                create_name,
+                create_time,
+                update_id,
+                update_name,
+                update_time,
+                source_ehid,
+                diff,
+                source_eid,
+                serial,
+                is_delete,
+                is_new,
+                is_update,
+                souce_cid
+          )
+        values
+            (
+                      #{ id },
+                    #{ wid },
+                    #{ weid },
+                    #{ name },
+                    #{ biography },
+                    #{ extra },
+                    #{ kind },
+                    #{ feature },
+                    #{ climate },
+                    #{ livingRace },
+                    #{ affiliatedForces },
+                    #{ mainCharacter },
+                    #{ specialty },
+                    #{ environment },
+                    #{ imgUrl },
+                    #{ districtBelong },
+                    #{ districtBelongId },
+                    #{ createId },
+                    #{ createName },
+                    #{ createTime },
+                    #{ updateId },
+                    #{ updateName },
+                    #{ updateTime },
+                    #{ sourceEhid },
+                    #{ diff },
+                    #{ sourceEid },
+                    #{ serial },
+                    #{ isDelete },
+                    #{ isNew },
+                    #{ isUpdate },
+                    #{ souceCid }
+       )
+    </insert>
+
+    <update id="edit"  >
+        update  wiki_draft_head_geography
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="id !=null ">  id= #{id},</if>
+                    <if test="wid !=null ">  wid= #{wid},</if>
+                    <if test="weid !=null ">  weid= #{weid},</if>
+                    <if test="name !=null ">  name= #{name},</if>
+                    <if test="biography !=null ">  biography= #{biography},</if>
+                    <if test="extra !=null ">  extra= #{extra},</if>
+                    <if test="kind !=null ">  kind= #{kind},</if>
+                    <if test="feature !=null ">  feature= #{feature},</if>
+                    <if test="climate !=null ">  climate= #{climate},</if>
+                    <if test="livingRace !=null ">  living_race= #{livingRace},</if>
+                    <if test="affiliatedForces !=null ">  affiliated_forces= #{affiliatedForces},</if>
+                    <if test="mainCharacter !=null ">  main_character= #{mainCharacter},</if>
+                    <if test="specialty !=null ">  specialty= #{specialty},</if>
+                    <if test="environment !=null ">  environment= #{environment},</if>
+                    <if test="imgUrl !=null ">  img_url= #{imgUrl},</if>
+                    <if test="districtBelong !=null ">  district_belong= #{districtBelong},</if>
+                    <if test="districtBelongId !=null ">  district_belong_id= #{districtBelongId},</if>
+                    <if test="createId !=null ">  create_id= #{createId},</if>
+                    <if test="createName !=null ">  create_name= #{createName},</if>
+                    <if test="createTime !=null ">  create_time= #{createTime},</if>
+                    <if test="updateId !=null ">  update_id= #{updateId},</if>
+                    <if test="updateName !=null ">  update_name= #{updateName},</if>
+                    <if test="updateTime !=null ">  update_time= #{updateTime},</if>
+                    <if test="sourceEhid !=null ">  source_ehid= #{sourceEhid},</if>
+                    <if test="diff !=null ">  diff= #{diff},</if>
+                    <if test="sourceEid !=null ">  source_eid= #{sourceEid},</if>
+                    <if test="serial !=null ">  serial= #{serial},</if>
+                    <if test="isDelete !=null ">  is_delete= #{isDelete},</if>
+                    <if test="isNew !=null ">  is_new= #{isNew},</if>
+                    <if test="isUpdate !=null ">  is_update= #{isUpdate},</if>
+                    <if test="souceCid !=null ">  souce_cid= #{souceCid},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+
+    <delete id="delById"  >
+        delete FROM  wiki_draft_head_geography where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.DraftHeadGeographyVo">
+        <include refid="selectDraftHeadGeography"/> where  id = #{id}
+    </select>
+    <insert id="insetSelectContent">
+        insert into wiki_draft_head_geography (
+            eid, title, status, content, wid,
+            create_id, create_name, serial,
+            is_delete, is_new, is_update,source_eid,source_ecid,extra
+        )
+        select ${id},title,status,content,wid,
+               ${userId},'${userName}', serial,
+               1,0,0,eid,id,extra
+        from wiki_element_head_geography where wid=#{wid} and eid=#{eid} and id ={ehid}
+    </insert>
+    <select id="selectByWidEid"  resultType="com.xinshijie.wiki.vo.DraftHeadGeographyVo">
+        <include refid="selectDraftHeadGeography"/>
+        where eid=#{eid} and wid=#{wid} <if test="isDel == 0">and is_delete= 0</if>
+    </select>
+
+    <delete id="deleteByEidWid"  >
+        delete FROM  wiki_draft_head_geography where  wid = #{wid} and eid=#{eid}
+    </delete>
+</mapper>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.ChapterMapper">
+    
+    <sql id="selectChapterVo">
+        select
+       *
+       from wiki_chapter
+    </sql>
+
+    <select id="selectChapterList" parameterType="com.xinshijie.wiki.dto.ChapterFindDto" resultType="com.xinshijie.wiki.vo.ChapterVo">
+        <include refid="selectChapterVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="title != null  and title != ''"> and title = #{title}</if>
+         <if test="status != null "> and status in #{status}</if>
+         <if test="serialNumber != null "> and serial_number = #{serialNumber}</if>
+         <if test="pid != null "> and pid = #{pid}</if>
+         <if test="wid != null "> and wid = #{wid}</if>
+         <if test="sid != null "> and sid = #{sid}</if>
+         <if test="pid != null"> and pid = #{pid}</if>
+         <if test="level != null and level != ''"> and level = #{level}</if>
+        </where>
+        order by serial_number,create_time
+    </select>
+    <select id="selectChapterNameList" parameterType="com.xinshijie.wiki.dto.ChapterFindDto" resultType="com.xinshijie.wiki.vo.ChapterNameVo">
+        select id,title,pid from wiki_chapter
+        where  sid = #{sid}
+         <if test="status != null "> and status in #{status}</if>
+        <if test="pid != null "> and pid = #{pid}</if>
+        order by serial_number,create_time
+    </select>
+
+
+    <select id="selectPageChapter"  resultType="com.xinshijie.wiki.vo.ChapterVo">
+        <include refid="selectChapterVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.title != null"> and title = #{dto.title}</if>
+                <if test="dto.status != null"> and status = #{dto.status}</if>
+                <if test="dto.serialNumber != null"> and serial_number = #{dto.serialNumber}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.createName != null"> and create_name = #{dto.createName}</if>
+                <if test="dto.createId != null"> and create_id = #{dto.createId}</if>
+                <if test="dto.updateId != null"> and update_id = #{dto.updateId}</if>
+                <if test="dto.updateName != null"> and update_name = #{dto.updateName}</if>
+                <if test="dto.updateTime != null"> and update_time = #{dto.updateTime}</if>
+                <if test="dto.pid != null"> and pid = #{dto.pid}</if>
+                <if test="dto.level != null"> and level = #{dto.level}</if>
+                <if test="dto.countWorld != null"> and count_world = #{dto.countWorld}</if>
+                <if test="dto.isVip != null"> and is_vip = #{dto.isVip}</if>
+                <if test="dto.wid != null"> and wid = #{dto.wid}</if>
+                <if test="dto.sid != null"> and sid = #{dto.sid}</if>
+                <if test="dto.content != null"> and content = #{dto.content}</if>
+                <if test="dto.auditNumber != null"> and audit_number = #{dto.auditNumber}</if>
+                <if test="dto.auditContent != null"> and audit_content = #{dto.auditContent}</if>
+                <if test="dto.auditId != null"> and audit_id = #{dto.auditId}</if>
+                <if test="dto.auditName != null"> and audit_name = #{dto.auditName}</if>
+                <if test="dto.auditTime != null"> and audit_time = #{dto.auditTime}</if>
+        </where>
+        order by serial_number,create_time
+    </select>
+
+    <select id="getPageChapter"  resultType="com.xinshijie.wiki.vo.ChapterVo">
+        <include refid="selectChapterVo"/> ${ew.customSqlSegment}
+        order by serial_number,create_time
+    </select>
+
+    <update id="edit"  >
+        update  wiki_chapter
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="title != null and title != ''">title = #{title},</if>
+                    <if test="status != null">status = #{status},</if>
+                    <if test="serialNumber != null">serial_number = #{serialNumber},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="pid != null">pid = #{pid},</if>
+                    <if test="level != null and level != ''">level = #{level},</if>
+                    <if test="countWorld != null">count_world = #{countWorld},</if>
+                    <if test="isVip != null">is_vip = #{isVip},</if>
+                    <if test="content != null and content != ''">content = #{content},</if>
+                    <if test="auditNumber != null">audit_number = #{auditNumber},</if>
+                    <if test="auditContent != null and auditContent != ''">audit_content = #{auditContent},</if>
+                    <if test="auditId != null">audit_id = #{auditId},</if>
+                    <if test="auditName != null and auditName != ''">audit_name = #{auditName},</if>
+                    <if test="auditTime != null">audit_time = #{auditTime},</if>
+                    <if test="sname != null">sname = #{sname},</if>
+                    <if test="upId != null">up_id = #{upId},</if>
+                    <if test="downId != null">down_id = #{downId},</if>
+        </trim>
+        where   id=#{id}  and sid=#{sid}
+        order by serial_number
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_chapter where  id=#{scid}  and sid=#{sid}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.ChapterVo">
+        <include refid="selectChapterVo"/>  where  id=#{scid}  and sid=#{sid}
+    </select>
+    <select id="getInfoIntro"  resultType="com.xinshijie.wiki.vo.ChapterIntroVo">
+        select id,title,content,create_time,update_time,serial_number,sid,sname,wid,up_id,down_id from wiki_chapter where  id=#{scid}  and sid=#{sid}
+    </select>
+    <update id="updateCount"  >
+        update  wiki_chapter set
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="countDisagree != null">count_disagree =count_disagree+ #{countDisagree},</if>
+            <if test="countLike != null">count_like =count_like+ #{countLike},</if>
+            <if test="countSee != null">count_see = count_see+#{countSee},</if>
+        </trim>
+        where id=#{id}
+    </update>
+
+<!--    上一章-->
+    <select id="previousChapter" resultType="com.xinshijie.wiki.vo.ChapterIntroVo">
+        select id,title,sid,wid,sname from wiki_chapter we
+        where up_id=#{upId} and wid=#{wid} and sid=#{sid}
+    </select>
+    <select id="nextChapter" resultType="com.xinshijie.wiki.vo.ChapterIntroVo">
+        select id,title,sid,wid,sname from wiki_chapter we
+        where down_id = #{downId} and wid=#{wid} and sid=#{sid}
+    </select>
+
+    <update id="updateUpidDownId"  >
+        update  wiki_chapter set
+        <if test="upId != null">up_id = #{upId},</if>
+        <if test="downId != null">down_id = #{downId},</if>
+        where id=#{id} and wid=#{wid} and sid=#{sid}
+    </update>
+    <select id="selectSidWidSerialNumber"  resultType="com.xinshijie.wiki.vo.ChapterVo">
+        <include refid="selectChapterVo"/>  where  sid=#{sid}  and wid=#{wid} and serial_number= #{serialNumber}
+    </select>
+
+</mapper>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.StoryMapper">
+
+
+    <sql id="selectStoryVo">
+        select
+          *
+            from wiki_story
+    </sql>
+
+    <select id="selectStoryList" parameterType="com.xinshijie.wiki.dto.StoryFindDto" resultType="com.xinshijie.wiki.vo.StoryVo">
+        <include refid="selectStoryVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="name != null  and name != ''"> and name = #{name}</if>
+         <if test="intro != null  and intro != ''"> and intro = #{intro}</if>
+         <if test="status != null "> and status = #{status}</if>
+         <if test="tags != null  and tags != ''"> and tags = #{tags}</if>
+         <if test="types != null "> and types = #{types}</if>
+         <if test="auditNumber != null "> and audit_number = #{auditNumber}</if>
+         <if test="wid != null "> and wid = #{wid}</if>
+         <if test="wname != null  and wname != ''"> and wname = #{wname}</if>
+         <if test="isAdmin != null and isAdmin == 1"> and status in (2,3,4,5,6,7)</if>
+        </where>
+    </select>
+
+    <select id="selectPageStory"  resultType="com.xinshijie.wiki.vo.StoryVo">
+        <include refid="selectStoryVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.name != null"> and name = #{dto.name}</if>
+                <if test="dto.intro != null"> and intro = #{dto.intro}</if>
+                <if test="dto.description != null"> and description = #{dto.description}</if>
+                <if test="dto.permission != null"> and permission = #{dto.permission}</if>
+                <if test="dto.author != null"> and author = #{dto.author}</if>
+                <if test="dto.category != null"> and category = #{dto.category}</if>
+                <if test="dto.status != null"> and status = #{dto.status}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.createId != null"> and create_id = #{dto.createId}</if>
+                <if test="dto.createName != null"> and create_name = #{dto.createName}</if>
+                <if test="dto.updateName != null"> and update_name = #{dto.updateName}</if>
+                <if test="dto.updateTime != null"> and update_time = #{dto.updateTime}</if>
+                <if test="dto.updateId != null"> and update_id = #{dto.updateId}</if>
+                <if test="dto.tags != null"> and tags = #{dto.tags}</if>
+                <if test="dto.updateChapter != null"> and update_chapter = #{dto.updateChapter}</if>
+                <if test="dto.updateChapterId != null"> and update_chapter_id = #{dto.updateChapterId}</if>
+                <if test="dto.updateChapterTime != null"> and update_chapter_time = #{dto.updateChapterTime}</if>
+                <if test="dto.countSee != null"> and count_see = #{dto.countSee}</if>
+                <if test="dto.countChapter != null"> and count_chapter = #{dto.countChapter}</if>
+                <if test="dto.exp != null"> and exp = #{dto.exp}</if>
+                <if test="dto.ranks != null"> and ranks = #{dto.ranks}</if>
+                <if test="dto.countComment != null"> and count_comment = #{dto.countComment}</if>
+                <if test="dto.countDiscuss != null"> and count_discuss = #{dto.countDiscuss}</if>
+                <if test="dto.types != null"> and types = #{dto.types}</if>
+                <if test="dto.auditNumber != null"> and audit_number = #{dto.auditNumber}</if>
+                <if test="dto.auditContent != null"> and audit_content = #{dto.auditContent}</if>
+                <if test="dto.countWord != null"> and count_word = #{dto.countWord}</if>
+                <if test="dto.imgUrl != null"> and img_url = #{dto.imgUrl}</if>
+                <if test="dto.isVip != null"> and is_vip = #{dto.isVip}</if>
+                <if test="dto.wid != null"> and wid = #{dto.wid}</if>
+                <if test="dto.wname != null"> and wname = #{dto.wname}</if>
+                <if test="dto.auditId != null"> and audit_id = #{dto.auditId}</if>
+                <if test="dto.auditName != null"> and audit_name = #{dto.auditName}</if>
+                <if test="dto.auditTime != null"> and audit_time = #{dto.auditTime}</if>
+                <if test="dto.endTime != null"> and end_time = #{dto.endTime}</if>
+                <if test="dto.typeName != null"> and type_name = #{dto.typeName}</if>
+        </where>
+    </select>
+
+    <select id="getPageStory"  resultType="com.xinshijie.wiki.vo.StoryVo">
+        <include refid="selectStoryVo"/> ${ew.customSqlSegment}
+    </select>
+
+
+    <update id="edit"  >
+        update  wiki_story
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="name != null and name != ''">name = #{name},</if>
+                    <if test="intro != null and intro != ''">intro = #{intro},</if>
+                    <if test="description != null and description != ''">description = #{description},</if>
+                    <if test="permission != null">permission = #{permission},</if>
+                    <if test="author != null and author != ''">author = #{author},</if>
+                    <if test="category != null">category = #{category},</if>
+                    <if test="status != null">status = #{status},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="tags != null and tags != ''">tags = #{tags},</if>
+                    <if test="updateChapter != null and updateChapter != ''">update_chapter = #{updateChapter},</if>
+                    <if test="updateChapterId != null">update_chapter_id = #{updateChapterId},</if>
+                    <if test="updateChapterTime != null">update_chapter_time = #{updateChapterTime},</if>
+                    <if test="exp != null">exp = #{exp},</if>
+                    <if test="ranks != null">ranks = #{ranks},</if>
+                    <if test="types != null">types = #{types},</if>
+                    <if test="auditNumber != null">audit_number = #{auditNumber},</if>
+                    <if test="auditContent != null and auditContent != ''">audit_content = #{auditContent},</if>
+                    <if test="imgUrl != null and imgUrl != ''">img_url = #{imgUrl},</if>
+                    <if test="isVip != null">is_vip = #{isVip},</if>
+                    <if test="wname != null and wname != ''">wname = #{wname},</if>
+                    <if test="auditId != null">audit_id = #{auditId},</if>
+                    <if test="auditName != null and auditName != ''">audit_name = #{auditName},</if>
+                    <if test="auditTime != null">audit_time = #{auditTime},</if>
+                    <if test="endTime != null">end_time = #{endTime},</if>
+                    <if test="typeName != null and typeName != ''">type_name = #{typeName},</if>
+            <if test="source != null and source != ''">source = #{source},</if>
+
+        </trim>
+        where   id=#{id} and wid=#{wid}
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_story where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.StoryVo">
+        <include refid="selectStoryVo"/> where  id = #{id}
+    </select>
+
+    <update id="updateCount"  >
+        update  wiki_story
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="diffuse != null">diffuse =diffuse+ #{diffuse},</if>
+            <if test="updateNewChapter != null and updateNewChapter != ''">update_new_chatper = #{updateNewChapter},</if>
+            <if test="updateNewChapterId != null">update_new_chapter_id = #{updateNewChapterId},</if>
+            <if test="scores != null">scores =scores+ #{scores},</if>
+            <if test="countAuthor != null">count_author =count_author+ #{countAuthor},</if>
+            <if test="countChapter != null">count_chapter =count_chapter+ #{countChapter},</if>
+            <if test="countComment != null">count_comment =count_comment+ #{countComment},</if>
+            <if test="countDiscuss != null">count_discuss =count_discuss+ #{countDiscuss},</if>
+            <if test="countHarding != null">count_harding =count_harding+ #{countHarding},</if>
+            <if test="countLike != null">count_like =count_like+ #{countLike},</if>
+            <if test="countEdit != null">count_edit =count_edit+ #{countEdit},</if>
+            <if test="countSee != null">count_see =count_see+ #{countSee},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="updateNewChaptertTime != null">update_new_chapter_time = #{updateNewChapterTime},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+    <update id="updateRank"  >
+        update  wiki_story
+        set ranks = ranks + 1
+        where   id=#{id} and diffuse>#{upgrade}
+    </update>
+    <update id="updateCountAuditChapter"  >
+        update  wiki_story
+        set    count_audit_chapter = count_audit_chapter+#{count}
+        where   id=#{id}
+    </update>
+    <update id="updateCountAuditAuthor"  >
+        update  wiki_story_
+        set    count_audit_author = count_audit_author+#{count}
+        where   id=#{id}
+    </update>
+    <update id="updateCountAuditDiscuss"  >
+        update  wiki_story
+        set count_audit_discuss = count_audit_discuss + #{count}
+        where   id=#{id}
+    </update>
+    <update id="updateCountAuditComment"  >
+        update  wiki_story
+        set count_audit_comment = count_audit_comment + #{count}
+        where   id=#{id}
+    </update>
+
+
+    <select id="findByAuthor" parameterType="com.xinshijie.wiki.dto.StoryFindDto" resultType="com.xinshijie.wiki.vo.StoryVo">
+        select ww.* from wiki_story ww,wiki_author wm
+        where  wm.sid =ww.id and wm.user_id =#{userId}
+        <if test="name != null  and name != ''"> and ww.name like concat('%', #{name}, '%')</if>
+        <if test="types != null "> and ww.types = #{types}</if>
+        <if test="wid != null "> and ww.wid = #{wid}</if>
+        <if test="status != null "> and ww.status = #{status}</if>
+    </select>
+
+
+    <update id="updateStatus" parameterType="com.xinshijie.wiki.dto.StoryDto">
+        update wiki_story
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="status != null">status = #{status},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateName != null">update_name = #{updateName},</if>
+            <if test="auditNumber != null">audit_number = #{auditNumber},</if>
+            <if test="auditContent != null">audit_content = #{auditContent},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+        </trim>
+        where id = #{id} and wid= #{wid}
+        <if test="userId != null">and create_id = #{userId}</if>
+    </update>
+    <delete id="deleteByIdWidUserId" parameterType="Long">
+        delete from wiki_story where id = #{id} and wid = #{wid}
+        <if test="userId != null">and create_id = #{userId}</if>
+    </delete>
+
+    <update id="autorUpdateIss" parameterType="Integer">
+        update wiki_story set
+                                      status =#{ updateStatus } ,
+                                      update_time=now(),
+                                      update_id= -1,
+                                      update_name='系统自动'
+        where status =#{ nowStatus} and end_time >now()
+    </update>
+    <select id="findOvertimeAudit" resultType="com.xinshijie.wiki.vo.StoryVo">
+        select wid,id,status FROM  wiki_story WHERE status =6 and end_time >now() Limit #{size}
+    </select>
+    <select id="findOvertimeIssous" resultType="com.xinshijie.wiki.vo.StoryVo">
+        select wid,id,status FROM  wiki_story WHERE status =5 and end_time >now() Limit #{size}
+    </select>
+</mapper>

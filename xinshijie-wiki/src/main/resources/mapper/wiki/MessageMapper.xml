@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.MessageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xinshijie.wiki.vo.MessageVo">
+        <id column="id" property="id" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="receive_id" property="receiveId" />
+        <result column="receive_name" property="receiveName" />
+        <result column="receive_time" property="receiveTime" />
+        <result column="receive_status" property="receiveStatus" />
+        <result column="centent" property="centent" />
+        <result column="create_name" property="createName" />
+        <result column="types" property="types" />
+        <result column="is_delete" property="isDelete" />
+        <result column="is_read" property="isRead" />
+        <result column="floor" property="floor" />
+
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_id, create_time, receive_id, receive_name, receive_time, receive_status, centent, create_name, types, is_delete, is_read,floor
+    </sql>
+
+    <sql id="selectMessageVo">
+        select
+        id,
+        create_id,
+        create_time,
+        receive_id,
+        receive_name,
+        receive_time,
+        receive_status,
+        centent,
+        create_name,
+        types,
+        is_delete,
+        is_read,
+        floor
+       from wiki_message
+    </sql>
+
+    <select id="selectMessageList" parameterType="com.xinshijie.wiki.dto.MessageDto" resultMap="BaseResultMap">
+        <include refid="selectMessageVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="createId != null "> and create_id = #{createId}</if>
+         <if test="createTime != null "> and create_time = #{createTime}</if>
+         <if test="receiveId != null "> and receive_id = #{receiveId}</if>
+         <if test="receiveName != null  and receiveName != ''"> and receive_name = #{receiveName}</if>
+         <if test="receiveTime != null "> and receive_time = #{receiveTime}</if>
+         <if test="receiveStatus != null  and receiveStatus != ''"> and receive_status = #{receiveStatus}</if>
+         <if test="centent != null  and centent != ''"> and centent = #{centent}</if>
+         <if test="createName != null  and createName != ''"> and create_name = #{createName}</if>
+         <if test="types != null "> and types = #{types}</if>
+         <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+         <if test="isRead != null "> and is_read = #{isRead}</if>
+            <if test="floor != null "> and floor = #{floor}</if>
+        </where>
+    </select>
+
+    <select id="selectPageMessage"  resultMap="BaseResultMap">
+        <include refid="selectMessageVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.createId != null"> and create_id = #{dto.createId}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.receiveId != null"> and receive_id = #{dto.receiveId}</if>
+                <if test="dto.receiveName != null"> and receive_name = #{dto.receiveName}</if>
+                <if test="dto.receiveTime != null"> and receive_time = #{dto.receiveTime}</if>
+                <if test="dto.receiveStatus != null"> and receive_status = #{dto.receiveStatus}</if>
+                <if test="dto.centent != null"> and centent = #{dto.centent}</if>
+                <if test="dto.createName != null"> and create_name = #{dto.createName}</if>
+                <if test="dto.types != null"> and types = #{dto.types}</if>
+                <if test="dto.isDelete != null"> and is_delete = #{dto.isDelete}</if>
+                <if test="dto.isRead != null"> and is_read = #{dto.isRead}</if>
+        </where>
+    </select>
+
+    <select id="getPageMessage"  resultMap="BaseResultMap">
+        <include refid="selectMessageVo"/> ${ew.customSqlSegment}
+    </select>
+
+    <insert id="add"  >
+       insert into wiki_message (  id,  create_id,  create_time,  receive_id,  receive_name,  receive_time,  receive_status,  centent,  create_name,  types,  is_delete,  is_read ,floor )
+        values
+      (  #{id},  #{createId},  #{createTime},  #{receiveId},  #{receiveName},  #{receiveTime},  #{receiveStatus},  #{centent},  #{createName},  #{types},  #{isDelete},  #{isRead},#{floor}  )
+    </insert>
+
+    <update id="edit"  >
+        update  wiki_message
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="receiveId != null">receive_id = #{receiveId},</if>
+                    <if test="receiveName != null and receiveName != ''">receive_name = #{receiveName},</if>
+                    <if test="receiveTime != null">receive_time = #{receiveTime},</if>
+                    <if test="receiveStatus != null and receiveStatus != ''">receive_status = #{receiveStatus},</if>
+                    <if test="centent != null and centent != ''">centent = #{centent},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="types != null">types = #{types},</if>
+                    <if test="isDelete != null">is_delete = #{isDelete},</if>
+                    <if test="isRead != null">is_read = #{isRead},</if>
+            <if test="floor != null">is_read = #{floor},</if>
+        </trim>
+        where   id=#{id}              
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_message where  id = #{id}              
+    </delete>
+
+    <select id="getInfo"  resultMap="BaseResultMap">
+        <include refid="selectMessageVo"/> where  id = #{id}              
+    </select>
+    <select id="findReceive"  resultMap="BaseResultMap">
+        <include refid="selectMessageVo"/> where  floor=0 and receive_id=#{userid} order by create_time
+    </select>
+    <select id="findSend"  resultMap="BaseResultMap">
+        <include refid="selectMessageVo"/> where  floor=0 and create_id=#{userid} order by create_time
+    </select>
+    <select id="findOnce"  resultMap="BaseResultMap">
+        <include refid="selectMessageVo"/> where  id=#{mid} or mid=#{mid} order by create_time
+    </select>
+    <update id="read"  >
+    update  wiki_message set is_read=1 where   id=#{mid} or mid=#{mid}
+    </update>
+</mapper>

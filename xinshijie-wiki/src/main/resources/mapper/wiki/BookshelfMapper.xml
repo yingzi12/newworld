@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.BookshelfMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xinshijie.wiki.vo.BookshelfVo">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="wid" property="wid" />
+        <result column="sid" property="sid" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="last_chapter_id" property="lastChapterId" />
+        <result column="last_chapter_name" property="lastChapterName" />
+        <result column="is_new" property="isNew" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id, user_name, wid, sid, create_time, update_time, last_chapter_id, last_chapter_name, is_new
+    </sql>
+
+    <sql id="selectBookshelfVo">
+        select
+        id,
+        user_id,
+        user_name,
+        wid,
+        sid,
+        create_time,
+        update_time,
+        last_chapter_id,
+        last_chapter_name,
+        is_new
+       from wiki_bookshelf
+    </sql>
+
+    <select id="selectBookshelfList" parameterType="com.xinshijie.wiki.dto.BookshelfDto" resultMap="BaseResultMap">
+        <include refid="selectBookshelfVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="userId != null "> and user_id = #{userId}</if>
+         <if test="userName != null  and userName != ''"> and user_name = #{userName}</if>
+         <if test="wid != null "> and wid = #{wid}</if>
+         <if test="sid != null "> and sid = #{sid}</if>
+         <if test="createTime != null  and createTime != ''"> and create_time = #{createTime}</if>
+         <if test="updateTime != null  and updateTime != ''"> and update_time = #{updateTime}</if>
+         <if test="lastChapterId != null "> and last_chapter_id = #{lastChapterId}</if>
+         <if test="lastChapterName != null  and lastChapterName != ''"> and last_chapter_name = #{lastChapterName}</if>
+         <if test="isNew != null "> and is_new = #{isNew}</if>
+        </where>
+    </select>
+
+    <select id="selectPageBookshelf"  resultMap="BaseResultMap">
+        <include refid="selectBookshelfVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.userId != null"> and user_id = #{dto.userId}</if>
+                <if test="dto.userName != null"> and user_name = #{dto.userName}</if>
+                <if test="dto.wid != null"> and wid = #{dto.wid}</if>
+                <if test="dto.sid != null"> and sid = #{dto.sid}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.updateTime != null"> and update_time = #{dto.updateTime}</if>
+                <if test="dto.lastChapterId != null"> and last_chapter_id = #{dto.lastChapterId}</if>
+                <if test="dto.lastChapterName != null"> and last_chapter_name = #{dto.lastChapterName}</if>
+                <if test="dto.isNew != null"> and is_new = #{dto.isNew}</if>
+        </where>
+    </select>
+
+    <select id="getPageBookshelf"  resultMap="BaseResultMap">
+        <include refid="selectBookshelfVo"/> ${ew.customSqlSegment}
+    </select>
+
+
+    <update id="edit"  >
+        update  wiki_bookshelf
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="userId != null">user_id = #{userId},</if>
+                    <if test="userName != null and userName != ''">user_name = #{userName},</if>
+                    <if test="wid != null">wid = #{wid},</if>
+                    <if test="sid != null">sid = #{sid},</if>
+                    <if test="createTime != null and createTime != ''">create_time = #{createTime},</if>
+                    <if test="updateTime != null and updateTime != ''">update_time = #{updateTime},</if>
+                    <if test="lastChapterId != null">last_chapter_id = #{lastChapterId},</if>
+                    <if test="lastChapterName != null and lastChapterName != ''">last_chapter_name = #{lastChapterName},</if>
+                    <if test="isNew != null">is_new = #{isNew},</if>
+        </trim>
+        where   id=#{id}            
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_bookshelf where  id = #{id}            
+    </delete>
+
+    <select id="getInfo"  resultMap="BaseResultMap">
+        <include refid="selectBookshelfVo"/> where  id = #{id}            
+    </select>
+
+</mapper>

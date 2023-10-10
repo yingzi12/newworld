@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.ElementHeadOrganismMapper">
+
+    <sql id="selectElementHeadOrganism">
+        select
+                  id,
+                wid,
+                weid,
+                name,
+                biography,
+                extra,
+                kind,
+                feature,
+                growth_habits,
+                distribution_area,
+                special_instructions
+        from wiki_element_head_organism
+    </sql>
+
+    <select id="selectListElementHeadOrganism" parameterType="com.xinshijie.wiki.dto.ElementHeadOrganismDto" resultType="com.xinshijie.wiki.vo.ElementHeadOrganismVo">
+        <include refid="selectElementHeadOrganism"/>
+        <where>
+                    <if test="id !=null "> and id= #{id}</if>
+                    <if test="wid !=null "> and wid= #{wid}</if>
+                    <if test="weid !=null "> and weid= #{weid}</if>
+                    <if test="name !=null "> and name= #{name}</if>
+                    <if test="biography !=null "> and biography= #{biography}</if>
+                    <if test="extra !=null "> and extra= #{extra}</if>
+                    <if test="kind !=null "> and kind= #{kind}</if>
+                    <if test="feature !=null "> and feature= #{feature}</if>
+                    <if test="growthHabits !=null "> and growth_habits= #{growthHabits}</if>
+                    <if test="distributionArea !=null "> and distribution_area= #{distributionArea}</if>
+                    <if test="specialInstructions !=null "> and special_instructions= #{specialInstructions}</if>
+        </where>
+    </select>
+
+    <select id="selectPageElementHeadOrganism"  resultType="com.xinshijie.wiki.vo.ElementHeadOrganismVo">
+        <include refid="selectElementHeadOrganism"/>
+        <where>
+                    <if test="dto.id !=null "> and id= #{dto.id}</if>
+                    <if test="dto.wid !=null "> and wid= #{dto.wid}</if>
+                    <if test="dto.weid !=null "> and weid= #{dto.weid}</if>
+                    <if test="dto.name !=null "> and name= #{dto.name}</if>
+                    <if test="dto.biography !=null "> and biography= #{dto.biography}</if>
+                    <if test="dto.extra !=null "> and extra= #{dto.extra}</if>
+                    <if test="dto.kind !=null "> and kind= #{dto.kind}</if>
+                    <if test="dto.feature !=null "> and feature= #{dto.feature}</if>
+                    <if test="dto.growthHabits !=null "> and growth_habits= #{dto.growthHabits}</if>
+                    <if test="dto.distributionArea !=null "> and distribution_area= #{dto.distributionArea}</if>
+                    <if test="dto.specialInstructions !=null "> and special_instructions= #{dto.specialInstructions}</if>
+        </where>
+    </select>
+
+    <select id="getPageElementHeadOrganism"  resultType="com.xinshijie.wiki.vo.ElementHeadOrganismVo">
+        <include refid="selectElementHeadOrganism"/> ${ew.customSqlSegment}
+    </select>
+
+    <insert id="add"  >
+        insert into wiki_element_head_organism (
+                  id,
+                wid,
+                weid,
+                name,
+                biography,
+                extra,
+                kind,
+                feature,
+                growth_habits,
+                distribution_area,
+                special_instructions
+          )
+        values
+            (
+                      #{ id },
+                    #{ wid },
+                    #{ weid },
+                    #{ name },
+                    #{ biography },
+                    #{ extra },
+                    #{ kind },
+                    #{ feature },
+                    #{ growthHabits },
+                    #{ distributionArea },
+                    #{ specialInstructions }
+       )
+    </insert>
+
+    <update id="edit"  >
+        update  wiki_element_head_organism
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="id !=null ">  id= #{id},</if>
+                    <if test="wid !=null ">  wid= #{wid},</if>
+                    <if test="weid !=null ">  weid= #{weid},</if>
+                    <if test="name !=null ">  name= #{name},</if>
+                    <if test="biography !=null ">  biography= #{biography},</if>
+                    <if test="extra !=null ">  extra= #{extra},</if>
+                    <if test="kind !=null ">  kind= #{kind},</if>
+                    <if test="feature !=null ">  feature= #{feature},</if>
+                    <if test="growthHabits !=null ">  growth_habits= #{growthHabits},</if>
+                    <if test="distributionArea !=null ">  distribution_area= #{distributionArea},</if>
+                    <if test="specialInstructions !=null ">  special_instructions= #{specialInstructions},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+
+    <delete id="delById"  >
+        delete FROM  wiki_element_head_organism where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.ElementHeadOrganismVo">
+        <include refid="selectElementHeadOrganism"/> where  id = #{id}
+    </select>
+    <insert id="insertSelectEid">
+        insert into wiki_element_head_organism
+        (eid, title, status, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra)
+        select ${eid}, title, 0, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra
+        from wiki_dart_head_organism  where wid=#{wid} and eid=#{deid} and is_new=1 and is_delete=0
+    </insert>
+    <insert id="insertSelect">
+        insert into wiki_element_head_organism
+        (eid, title, status, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra)
+        select source_eid as eid, title, 0, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra
+        from wiki_dart_head_organism  where wid=#{wid} and eid=#{deid} and is_new=1 and is_delete=0
+    </insert>
+    <select id="selectByWidEid"  resultType="com.xinshijie.wiki.vo.ElementHeadOrganismVo">
+        <include refid="selectElementHeadOrganism"/>
+        where eid=#{eid} and wid=#{wid}
+    </select>
+    <delete id="delByIdWidEid"  >
+        delete FROM  wiki_element_head_organism  where  id = #{id} and eid=#{eid} and wid=#{wid}
+    </delete>
+</mapper>

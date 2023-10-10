@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.ElementHeadForcesMapper">
+
+    <sql id="selectElementHeadForces">
+        select
+                  id,
+                wid,
+                weid,
+                name,
+                birthday,
+                biography,
+                background,
+                extra,
+                farces_type,
+                feature,
+                force_creator,
+                main_members,
+                architecture,
+                sphere_influence
+        from wiki_element_head_forces
+    </sql>
+
+    <select id="selectListElementHeadForces" parameterType="com.xinshijie.wiki.dto.ElementHeadForcesDto" resultType="com.xinshijie.wiki.vo.ElementHeadForcesVo">
+        <include refid="selectElementHeadForces"/>
+        <where>
+                    <if test="id !=null "> and id= #{id}</if>
+                    <if test="wid !=null "> and wid= #{wid}</if>
+                    <if test="weid !=null "> and weid= #{weid}</if>
+                    <if test="name !=null "> and name= #{name}</if>
+                    <if test="birthday !=null "> and birthday= #{birthday}</if>
+                    <if test="biography !=null "> and biography= #{biography}</if>
+                    <if test="background !=null "> and background= #{background}</if>
+                    <if test="extra !=null "> and extra= #{extra}</if>
+                    <if test="farcesType !=null "> and farces_type= #{farcesType}</if>
+                    <if test="feature !=null "> and feature= #{feature}</if>
+                    <if test="forceCreator !=null "> and force_creator= #{forceCreator}</if>
+                    <if test="mainMembers !=null "> and main_members= #{mainMembers}</if>
+                    <if test="architecture !=null "> and architecture= #{architecture}</if>
+                    <if test="sphereInfluence !=null "> and sphere_influence= #{sphereInfluence}</if>
+        </where>
+    </select>
+
+    <select id="selectPageElementHeadForces"  resultType="com.xinshijie.wiki.vo.ElementHeadForcesVo">
+        <include refid="selectElementHeadForces"/>
+        <where>
+                    <if test="dto.id !=null "> and id= #{dto.id}</if>
+                    <if test="dto.wid !=null "> and wid= #{dto.wid}</if>
+                    <if test="dto.weid !=null "> and weid= #{dto.weid}</if>
+                    <if test="dto.name !=null "> and name= #{dto.name}</if>
+                    <if test="dto.birthday !=null "> and birthday= #{dto.birthday}</if>
+                    <if test="dto.biography !=null "> and biography= #{dto.biography}</if>
+                    <if test="dto.background !=null "> and background= #{dto.background}</if>
+                    <if test="dto.extra !=null "> and extra= #{dto.extra}</if>
+                    <if test="dto.farcesType !=null "> and farces_type= #{dto.farcesType}</if>
+                    <if test="dto.feature !=null "> and feature= #{dto.feature}</if>
+                    <if test="dto.forceCreator !=null "> and force_creator= #{dto.forceCreator}</if>
+                    <if test="dto.mainMembers !=null "> and main_members= #{dto.mainMembers}</if>
+                    <if test="dto.architecture !=null "> and architecture= #{dto.architecture}</if>
+                    <if test="dto.sphereInfluence !=null "> and sphere_influence= #{dto.sphereInfluence}</if>
+        </where>
+    </select>
+
+    <select id="getPageElementHeadForces"  resultType="com.xinshijie.wiki.vo.ElementHeadForcesVo">
+        <include refid="selectElementHeadForces"/> ${ew.customSqlSegment}
+    </select>
+
+    <insert id="add"  >
+        insert into wiki_element_head_forces (
+                  id,
+                wid,
+                weid,
+                name,
+                birthday,
+                biography,
+                background,
+                extra,
+                farces_type,
+                feature,
+                force_creator,
+                main_members,
+                architecture,
+                sphere_influence
+          )
+        values
+            (
+                      #{ id },
+                    #{ wid },
+                    #{ weid },
+                    #{ name },
+                    #{ birthday },
+                    #{ biography },
+                    #{ background },
+                    #{ extra },
+                    #{ farcesType },
+                    #{ feature },
+                    #{ forceCreator },
+                    #{ mainMembers },
+                    #{ architecture },
+                    #{ sphereInfluence }
+       )
+    </insert>
+
+    <update id="edit"  >
+        update  wiki_element_head_forces
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="id !=null ">  id= #{id},</if>
+                    <if test="wid !=null ">  wid= #{wid},</if>
+                    <if test="weid !=null ">  weid= #{weid},</if>
+                    <if test="name !=null ">  name= #{name},</if>
+                    <if test="birthday !=null ">  birthday= #{birthday},</if>
+                    <if test="biography !=null ">  biography= #{biography},</if>
+                    <if test="background !=null ">  background= #{background},</if>
+                    <if test="extra !=null ">  extra= #{extra},</if>
+                    <if test="farcesType !=null ">  farces_type= #{farcesType},</if>
+                    <if test="feature !=null ">  feature= #{feature},</if>
+                    <if test="forceCreator !=null ">  force_creator= #{forceCreator},</if>
+                    <if test="mainMembers !=null ">  main_members= #{mainMembers},</if>
+                    <if test="architecture !=null ">  architecture= #{architecture},</if>
+                    <if test="sphereInfluence !=null ">  sphere_influence= #{sphereInfluence},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+
+    <delete id="delById"  >
+        delete FROM  wiki_element_head_forces where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.ElementHeadForcesVo">
+        <include refid="selectElementHeadForces"/> where  id = #{id}
+    </select>
+
+    <insert id="insertSelectEid">
+        insert into wiki_element_head_forces
+        (eid, title, status, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra)
+        select ${eid}, title, 0, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra
+        from wiki_dart_head_forces where wid=#{wid} and eid=#{deid} and is_new=1 and is_delete=0
+    </insert>
+    <insert id="insertSelect">
+        insert into wiki_element_head_forces
+        (eid, title, status, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra)
+        select source_eid as eid, title, 0, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra
+        from wiki_dart_head_forces where wid=#{wid} and eid=#{deid} and is_new=1 and is_delete=0
+    </insert>
+    <select id="selectByWidEid"  resultType="com.xinshijie.wiki.vo.ElementHeadForcesVo">
+        <include refid="selectElementHeadForces"/>
+        where eid=#{eid} and wid=#{wid}
+    </select>
+    <delete id="delByIdWidEid"  >
+        delete FROM  wiki_element_head_forces where  id = #{id} and eid=#{eid} and wid=#{wid}
+    </delete>
+</mapper>

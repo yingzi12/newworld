@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.ElementImgMapper">
+
+    <sql id="selectElementImg">
+        select
+                  id,
+                url,
+                file_name,
+                create_time,
+                create_by,
+                create_name,
+                size,
+                wid,
+                weid,
+                title,
+                introduce
+        from wiki_element_img
+    </sql>
+
+    <select id="selectListElementImg" parameterType="com.xinshijie.wiki.dto.ElementImgDto" resultType="com.xinshijie.wiki.vo.ElementImgVo">
+        <include refid="selectElementImg"/>
+        <where>
+                    <if test="id !=null "> and id= #{id}</if>
+                    <if test="url !=null "> and url= #{url}</if>
+                    <if test="fileName !=null "> and file_name= #{fileName}</if>
+                    <if test="createTime !=null "> and create_time= #{createTime}</if>
+                    <if test="createBy !=null "> and create_by= #{createBy}</if>
+                    <if test="createName !=null "> and create_name= #{createName}</if>
+                    <if test="size !=null "> and size= #{size}</if>
+                    <if test="wid !=null "> and wid= #{wid}</if>
+                    <if test="weid !=null "> and weid= #{weid}</if>
+                    <if test="title !=null "> and title= #{title}</if>
+                    <if test="introduce !=null "> and introduce= #{introduce}</if>
+        </where>
+    </select>
+
+    <select id="selectPageElementImg"  resultType="com.xinshijie.wiki.vo.ElementImgVo">
+        <include refid="selectElementImg"/>
+        <where>
+                    <if test="dto.id !=null "> and id= #{dto.id}</if>
+                    <if test="dto.url !=null "> and url= #{dto.url}</if>
+                    <if test="dto.fileName !=null "> and file_name= #{dto.fileName}</if>
+                    <if test="dto.createTime !=null "> and create_time= #{dto.createTime}</if>
+                    <if test="dto.createBy !=null "> and create_by= #{dto.createBy}</if>
+                    <if test="dto.createName !=null "> and create_name= #{dto.createName}</if>
+                    <if test="dto.size !=null "> and size= #{dto.size}</if>
+                    <if test="dto.wid !=null "> and wid= #{dto.wid}</if>
+                    <if test="dto.weid !=null "> and weid= #{dto.weid}</if>
+                    <if test="dto.title !=null "> and title= #{dto.title}</if>
+                    <if test="dto.introduce !=null "> and introduce= #{dto.introduce}</if>
+        </where>
+    </select>
+
+    <select id="getPageElementImg"  resultType="com.xinshijie.wiki.vo.ElementImgVo">
+        <include refid="selectElementImg"/> ${ew.customSqlSegment}
+    </select>
+
+    <insert id="add"  >
+        insert into wiki_element_img (
+                  id,
+                url,
+                file_name,
+                create_time,
+                create_by,
+                create_name,
+                size,
+                wid,
+                weid,
+                title,
+                introduce
+          )
+        values
+            (
+                      #{ id },
+                    #{ url },
+                    #{ fileName },
+                    #{ createTime },
+                    #{ createBy },
+                    #{ createName },
+                    #{ size },
+                    #{ wid },
+                    #{ weid },
+                    #{ title },
+                    #{ introduce }
+       )
+    </insert>
+
+    <update id="edit"  >
+        update  wiki_element_img
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="id !=null ">  id= #{id},</if>
+                    <if test="url !=null ">  url= #{url},</if>
+                    <if test="fileName !=null ">  file_name= #{fileName},</if>
+                    <if test="createTime !=null ">  create_time= #{createTime},</if>
+                    <if test="createBy !=null ">  create_by= #{createBy},</if>
+                    <if test="createName !=null ">  create_name= #{createName},</if>
+                    <if test="size !=null ">  size= #{size},</if>
+                    <if test="wid !=null ">  wid= #{wid},</if>
+                    <if test="weid !=null ">  weid= #{weid},</if>
+                    <if test="title !=null ">  title= #{title},</if>
+                    <if test="introduce !=null ">  introduce= #{introduce},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+
+    <delete id="delById"  >
+        delete FROM  wiki_element_img where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.ElementImgVo">
+        <include refid="selectElementImg"/> where  id = #{id}
+    </select>
+
+    <delete id="delByIdWid"  >
+        delete FROM  wiki_element_img where  id = #{id} and  wid = #{wid}
+    </delete>
+
+    <select id="selectByWid"  resultType="com.xinshijie.wiki.vo.ElementImgVo">
+        <include refid="selectElementImg"/> where  wid = #{wid}
+    </select>
+</mapper>

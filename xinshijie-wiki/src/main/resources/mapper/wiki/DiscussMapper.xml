@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.DiscussMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xinshijie.wiki.vo.DiscussVo">
+        <id column="id" property="id" />
+        <result column="wid" property="wid" />
+        <result column="sid" property="sid" />
+        <result column="wname" property="wname" />
+        <result column="comment" property="comment" />
+        <result column="reply" property="reply" />
+        <result column="count_like" property="countLike" />
+        <result column="count_reply" property="countReply" />
+        <result column="count_disagree" property="countDisagree" />
+        <result column="status" property="status" />
+        <result column="create_id" property="createId" />
+        <result column="create_name" property="createName" />
+        <result column="create_time" property="createTime" />
+        <result column="update_id" property="updateId" />
+        <result column="update_name" property="updateName" />
+        <result column="update_time" property="updateTime" />
+        <result column="eid" property="eid" />
+        <result column="title" property="title" />
+        <result column="types" property="types" />
+        <result column="source" property="source" />
+
+        <result column="circle_url" property="circleUrl" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, wid,sid, wname,sname, source, comment, reply, count_like, count_reply, count_disagree, status, create_id, create_name, create_time, update_id, update_name, update_time, eid, title, types, circle_url
+    </sql>
+
+    <sql id="selectDiscussVo">
+        select
+        id,
+        wid,
+        sid,
+        wname,
+        sname,
+        source,
+        comment,
+        reply,
+        count_like,
+        count_reply,
+        count_disagree,
+        status,
+        create_id,
+        create_name,
+        create_time,
+        update_id,
+        update_name,
+        update_time,
+        eid,
+        title,
+        types,
+        circle_url
+       from wiki_discuss
+    </sql>
+
+    <select id="selectDiscussList" parameterType="com.xinshijie.wiki.dto.DiscussDto" resultMap="BaseResultMap">
+        <include refid="selectDiscussVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="wid != null "> and wid = #{wid}</if>
+            <if test="sid != null "> and sid = #{sid}</if>
+            <if test="wname != null  and wname != ''"> and wname = #{wname}</if>
+         <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
+         <if test="reply != null  and reply != ''"> and reply = #{reply}</if>
+         <if test="countLike != null "> and count_like = #{countLike}</if>
+         <if test="countReply != null "> and count_reply = #{countReply}</if>
+         <if test="countDisagree != null "> and count_disagree = #{countDisagree}</if>
+         <if test="status != null "> and status = #{status}</if>
+         <if test="createId != null "> and create_id = #{createId}</if>
+         <if test="createName != null  and createName != ''"> and create_name = #{createName}</if>
+         <if test="createTime != null "> and create_time = #{createTime}</if>
+         <if test="updateId != null "> and update_id = #{updateId}</if>
+         <if test="updateName != null  and updateName != ''"> and update_name = #{updateName}</if>
+         <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         <if test="eid != null "> and eid = #{eid}</if>
+         <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+         <if test="types != null "> and types = #{types}</if>
+            <if test="source != null "> and source = #{source}</if>
+            <if test="circleUrl != null  and circleUrl != ''"> and circle_url = #{circleUrl}</if>
+        </where>
+    </select>
+
+    <select id="selectPageDiscuss"  resultMap="BaseResultMap">
+        <include refid="selectDiscussVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.wid != null"> and wid = #{dto.wid}</if>
+            <if test="dto.sid != null"> and sid = #{dto.sid}</if>
+            <if test="dto.wname != null"> and wname = #{dto.wname}</if>
+            <if test="dto.sname != null"> and wname = #{dto.sname}</if>
+            <if test="dto.comment != null"> and comment = #{dto.comment}</if>
+                <if test="dto.reply != null"> and reply = #{dto.reply}</if>
+                <if test="dto.countLike != null"> and count_like = #{dto.countLike}</if>
+                <if test="dto.countReply != null"> and count_reply = #{dto.countReply}</if>
+                <if test="dto.countDisagree != null"> and count_disagree = #{dto.countDisagree}</if>
+                <if test="dto.status != null"> and status = #{dto.status}</if>
+                <if test="dto.createId != null"> and create_id = #{dto.createId}</if>
+                <if test="dto.createName != null"> and create_name = #{dto.createName}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.updateId != null"> and update_id = #{dto.updateId}</if>
+                <if test="dto.updateName != null"> and update_name = #{dto.updateName}</if>
+                <if test="dto.updateTime != null"> and update_time = #{dto.updateTime}</if>
+                <if test="dto.eid != null"> and eid = #{dto.eid}</if>
+                <if test="dto.title != null"> and title = #{dto.title}</if>
+                <if test="dto.types != null"> and types = #{dto.types}</if>
+                <if test="dto.circleUrl != null"> and circle_url = #{dto.circleUrl}</if>
+        </where>
+    </select>
+
+    <select id="getPageDiscuss"  resultMap="BaseResultMap">
+        <include refid="selectDiscussVo"/> ${ew.customSqlSegment}
+    </select>
+
+    <update id="edit"  >
+        update  wiki_discuss
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="wid != null">wid = #{wid},</if>
+                    <if test="wname != null and wname != ''">wname = #{wname},</if>
+                    <if test="comment != null and comment != ''">comment = #{comment},</if>
+                    <if test="reply != null and reply != ''">reply = #{reply},</if>
+                    <if test="countLike != null">count_like = #{countLike},</if>
+                    <if test="countReply != null">count_reply = #{countReply},</if>
+                    <if test="countDisagree != null">count_disagree = #{countDisagree},</if>
+                    <if test="status != null">status = #{status},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="eid != null">eid = #{eid},</if>
+                    <if test="title != null and title != ''">title = #{title},</if>
+                    <if test="types != null">types = #{types},</if>
+                    <if test="circleUrl != null and circleUrl != ''">circle_url = #{circleUrl},</if>
+        </trim>
+        where   id=#{id}    and
+            <if test="createId != null  and createId != ''">and create_id = #{createId}</if>
+
+    </update>
+
+    <update id="editStatus"  >
+        update  wiki_discuss
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="reply != null and reply != ''">reply = #{reply},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where   id=#{id} and wid=#{wid}    <if test="createId != null"> and create_id = #{createId}</if>
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_discuss where  id = #{id}                     
+    </delete>
+
+    <select id="getInfo"  resultMap="BaseResultMap">
+        <include refid="selectDiscussVo"/> where  id = #{id}                     
+    </select>
+    <select id="updateCount"  resultMap="BaseResultMap">
+        update  wiki_discuss set
+        <trim prefix="SET" suffixOverrides=",">
+        <if test="countDisagree != null">count_disagree =count_disagree+ #{countDisagree},</if>
+        <if test="countLike != null">count_like =count_like+ #{countLike},</if>
+        </trim>
+        where id = #{id}
+    </select>
+    <select id="updateCountReply"  resultMap="BaseResultMap">
+        update  wiki_discuss
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="count != null">count_reply =count_reply + #{count},</if>
+        </trim>
+        where id = #{id}
+    </select>
+</mapper>

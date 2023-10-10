@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.RecommendStoryMapper">
+
+    <sql id="selectRecommendStory">
+        select
+                  id,
+                wid,
+                wname,
+                intro,
+                rec_type,
+                img_url,
+                comments,
+                crate_time,
+                create_by,
+                create_name,
+                rec_sorting,
+                stype,
+                stag,
+                is_original,
+                sid,
+                sname
+        from wiki_recommend_story
+    </sql>
+
+    <select id="selectListRecommendStory" parameterType="com.xinshijie.wiki.dto.RecommendStoryDto" resultType="com.xinshijie.wiki.vo.RecommendStoryVo">
+        <include refid="selectRecommendStory"/>
+        <where>
+                    <if test="recType !=null ">and rec_type= #{recType}</if>
+                    <if test="isOriginal !=null ">and is_original= #{isOriginal}</if>
+        </where>
+        <if test="pageSize !=null ">limit #{pageSize}</if>
+
+    </select>
+
+    <select id="selectPageRecommendStory"  resultType="com.xinshijie.wiki.vo.RecommendStoryVo">
+        <include refid="selectRecommendStory"/>
+        <where>
+                    <if test="dto.id !=null ">and id= #{dto.id}</if>
+                    <if test="dto.wid !=null ">and wid= #{dto.wid}</if>
+                    <if test="dto.wname !=null ">and wname= #{dto.wname}</if>
+                    <if test="dto.intro !=null ">and intro= #{dto.intro}</if>
+                    <if test="dto.recType !=null ">and rec_type= #{dto.recType}</if>
+                    <if test="dto.imgUrl !=null ">and img_url= #{dto.imgUrl}</if>
+                    <if test="dto.comments !=null ">and comments= #{dto.comments}</if>
+                    <if test="dto.crateTime !=null ">and crate_time= #{dto.crateTime}</if>
+                    <if test="dto.createBy !=null ">and create_by= #{dto.createBy}</if>
+                    <if test="dto.createName !=null ">and create_name= #{dto.createName}</if>
+                    <if test="dto.recSorting !=null ">and rec_sorting= #{dto.recSorting}</if>
+                    <if test="dto.stype !=null ">and stype= #{dto.stype}</if>
+                    <if test="dto.stag !=null ">and stag= #{dto.stag}</if>
+                    <if test="dto.isOriginal !=null ">and is_original= #{dto.isOriginal}</if>
+                    <if test="dto.sid !=null ">and sid= #{dto.sid}</if>
+                    <if test="dto.sname !=null ">and sname= #{dto.sname}</if>
+        </where>
+    </select>
+
+    <select id="getPageRecommendStory"  resultType="com.xinshijie.wiki.vo.RecommendStoryVo">
+        <include refid="selectRecommendStory"/> ${ew.customSqlSegment}
+    </select>
+
+    <insert id="add"  >
+        insert into wiki_recommend_story (
+                id,
+                wid,
+                wname,
+                intro,
+                rec_type,
+                img_url,
+                comments,
+                crate_time,
+                create_by,
+                create_name,
+                rec_sorting,
+                stype,
+                stag,
+                is_original,
+                sid,
+                sname
+          )
+        values
+            (
+                    #{ id },
+                    #{ wid },
+                    #{ wname },
+                    #{ intro },
+                    #{ recType },
+                    #{ imgUrl },
+                    #{ comments },
+                    #{ crateTime },
+                    #{ createBy },
+                    #{ createName },
+                    #{ recSorting },
+                    #{ stype },
+                    #{ stag },
+                    #{ isOriginal },
+                    #{ sid },
+                    #{ sname }
+       )
+    </insert>
+
+    <update id="edit"  >
+        update  wiki_recommend_story
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="id !=null ">  id= #{id},</if>
+                    <if test="wid !=null ">  wid= #{wid},</if>
+                    <if test="wname !=null ">  wname= #{wname},</if>
+                    <if test="intro !=null ">  intro= #{intro},</if>
+                    <if test="recType !=null ">  rec_type= #{recType},</if>
+                    <if test="imgUrl !=null ">  img_url= #{imgUrl},</if>
+                    <if test="comments !=null ">  comments= #{comments},</if>
+                    <if test="crateTime !=null ">  crate_time= #{crateTime},</if>
+                    <if test="createBy !=null ">  create_by= #{createBy},</if>
+                    <if test="createName !=null ">  create_name= #{createName},</if>
+                    <if test="recSorting !=null ">  rec_sorting= #{recSorting},</if>
+                    <if test="stype !=null ">  stype= #{stype},</if>
+                    <if test="stag !=null ">  stag= #{stag},</if>
+                    <if test="isOriginal !=null ">  is_original= #{isOriginal},</if>
+                    <if test="sid !=null ">  sid= #{sid},</if>
+                    <if test="sname !=null ">  sname= #{sname},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+
+    <delete id="delById"  >
+        delete FROM  wiki_recommend_story where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.RecommendStoryVo">
+        <include refid="selectRecommendStory"/> where  id = #{id}
+    </select>
+
+    <select id="slectSidRecType"  resultType="com.xinshijie.wiki.vo.RecommendStoryVo">
+        <include refid="selectRecommendStory"/> where
+        sid=#{sid}
+        <if test="recType !=null "> and rec_type= #{recType}</if>
+    </select>
+
+</mapper>

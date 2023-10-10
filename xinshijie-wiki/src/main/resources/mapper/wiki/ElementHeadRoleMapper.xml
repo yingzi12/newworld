@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.ElementHeadRoleMapper">
+
+    <sql id="selectElementHeadRole">
+        select
+                  id,
+                wid,
+                weid,
+                name,
+                birthday,
+                biography,
+                race,
+                race_id,
+                forces,
+                forces_id,
+                alias,
+                title,
+                place_birth,
+                age,
+                date_death,
+                cause_death,
+                character,
+                achievement,
+                identity,
+                mother,
+                father,
+                child,
+                daughter,
+                son,
+                family,
+                background,
+                extra,
+                special_instructions
+        from wiki_element_head_role
+    </sql>
+
+    <select id="selectListElementHeadRole" parameterType="com.xinshijie.wiki.dto.ElementHeadRoleDto" resultType="com.xinshijie.wiki.vo.ElementHeadRoleVo">
+        <include refid="selectElementHeadRole"/>
+        <where>
+                    <if test="id !=null "> and id= #{id}</if>
+                    <if test="wid !=null "> and wid= #{wid}</if>
+                    <if test="weid !=null "> and weid= #{weid}</if>
+                    <if test="name !=null "> and name= #{name}</if>
+                    <if test="birthday !=null "> and birthday= #{birthday}</if>
+                    <if test="biography !=null "> and biography= #{biography}</if>
+                    <if test="race !=null "> and race= #{race}</if>
+                    <if test="raceId !=null "> and race_id= #{raceId}</if>
+                    <if test="forces !=null "> and forces= #{forces}</if>
+                    <if test="forcesId !=null "> and forces_id= #{forcesId}</if>
+                    <if test="alias !=null "> and alias= #{alias}</if>
+                    <if test="title !=null "> and title= #{title}</if>
+                    <if test="placeBirth !=null "> and place_birth= #{placeBirth}</if>
+                    <if test="age !=null "> and age= #{age}</if>
+                    <if test="dateDeath !=null "> and date_death= #{dateDeath}</if>
+                    <if test="causeDeath !=null "> and cause_death= #{causeDeath}</if>
+                    <if test="character !=null "> and character= #{character}</if>
+                    <if test="achievement !=null "> and achievement= #{achievement}</if>
+                    <if test="identity !=null "> and identity= #{identity}</if>
+                    <if test="mother !=null "> and mother= #{mother}</if>
+                    <if test="father !=null "> and father= #{father}</if>
+                    <if test="child !=null "> and child= #{child}</if>
+                    <if test="daughter !=null "> and daughter= #{daughter}</if>
+                    <if test="son !=null "> and son= #{son}</if>
+                    <if test="family !=null "> and family= #{family}</if>
+                    <if test="background !=null "> and background= #{background}</if>
+                    <if test="extra !=null "> and extra= #{extra}</if>
+                    <if test="specialInstructions !=null "> and special_instructions= #{specialInstructions}</if>
+        </where>
+    </select>
+
+    <select id="selectPageElementHeadRole"  resultType="com.xinshijie.wiki.vo.ElementHeadRoleVo">
+        <include refid="selectElementHeadRole"/>
+        <where>
+                    <if test="dto.id !=null "> and id= #{dto.id}</if>
+                    <if test="dto.wid !=null "> and wid= #{dto.wid}</if>
+                    <if test="dto.weid !=null "> and weid= #{dto.weid}</if>
+                    <if test="dto.name !=null "> and name= #{dto.name}</if>
+                    <if test="dto.birthday !=null "> and birthday= #{dto.birthday}</if>
+                    <if test="dto.biography !=null "> and biography= #{dto.biography}</if>
+                    <if test="dto.race !=null "> and race= #{dto.race}</if>
+                    <if test="dto.raceId !=null "> and race_id= #{dto.raceId}</if>
+                    <if test="dto.forces !=null "> and forces= #{dto.forces}</if>
+                    <if test="dto.forcesId !=null "> and forces_id= #{dto.forcesId}</if>
+                    <if test="dto.alias !=null "> and alias= #{dto.alias}</if>
+                    <if test="dto.title !=null "> and title= #{dto.title}</if>
+                    <if test="dto.placeBirth !=null "> and place_birth= #{dto.placeBirth}</if>
+                    <if test="dto.age !=null "> and age= #{dto.age}</if>
+                    <if test="dto.dateDeath !=null "> and date_death= #{dto.dateDeath}</if>
+                    <if test="dto.causeDeath !=null "> and cause_death= #{dto.causeDeath}</if>
+                    <if test="dto.character !=null "> and character= #{dto.character}</if>
+                    <if test="dto.achievement !=null "> and achievement= #{dto.achievement}</if>
+                    <if test="dto.identity !=null "> and identity= #{dto.identity}</if>
+                    <if test="dto.mother !=null "> and mother= #{dto.mother}</if>
+                    <if test="dto.father !=null "> and father= #{dto.father}</if>
+                    <if test="dto.child !=null "> and child= #{dto.child}</if>
+                    <if test="dto.daughter !=null "> and daughter= #{dto.daughter}</if>
+                    <if test="dto.son !=null "> and son= #{dto.son}</if>
+                    <if test="dto.family !=null "> and family= #{dto.family}</if>
+                    <if test="dto.background !=null "> and background= #{dto.background}</if>
+                    <if test="dto.extra !=null "> and extra= #{dto.extra}</if>
+                    <if test="dto.specialInstructions !=null "> and special_instructions= #{dto.specialInstructions}</if>
+        </where>
+    </select>
+
+    <select id="getPageElementHeadRole"  resultType="com.xinshijie.wiki.vo.ElementHeadRoleVo">
+        <include refid="selectElementHeadRole"/> ${ew.customSqlSegment}
+    </select>
+
+    <insert id="add"  >
+        insert into wiki_element_head_role (
+                  id,
+                wid,
+                weid,
+                name,
+                birthday,
+                biography,
+                race,
+                race_id,
+                forces,
+                forces_id,
+                alias,
+                title,
+                place_birth,
+                age,
+                date_death,
+                cause_death,
+                character,
+                achievement,
+                identity,
+                mother,
+                father,
+                child,
+                daughter,
+                son,
+                family,
+                background,
+                extra,
+                special_instructions
+          )
+        values
+            (
+                      #{ id },
+                    #{ wid },
+                    #{ weid },
+                    #{ name },
+                    #{ birthday },
+                    #{ biography },
+                    #{ race },
+                    #{ raceId },
+                    #{ forces },
+                    #{ forcesId },
+                    #{ alias },
+                    #{ title },
+                    #{ placeBirth },
+                    #{ age },
+                    #{ dateDeath },
+                    #{ causeDeath },
+                    #{ character },
+                    #{ achievement },
+                    #{ identity },
+                    #{ mother },
+                    #{ father },
+                    #{ child },
+                    #{ daughter },
+                    #{ son },
+                    #{ family },
+                    #{ background },
+                    #{ extra },
+                    #{ specialInstructions }
+       )
+    </insert>
+
+    <update id="edit"  >
+        update  wiki_element_head_role
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="id !=null ">  id= #{id},</if>
+            <if test="wid !=null ">  wid= #{wid},</if>
+                    <if test="weid !=null ">  weid= #{weid},</if>
+                    <if test="name !=null ">  name= #{name},</if>
+                    <if test="birthday !=null ">  birthday= #{birthday},</if>
+                    <if test="biography !=null ">  biography= #{biography},</if>
+                    <if test="race !=null ">  race= #{race},</if>
+                    <if test="raceId !=null ">  race_id= #{raceId},</if>
+                    <if test="forces !=null ">  forces= #{forces},</if>
+                    <if test="forcesId !=null ">  forces_id= #{forcesId},</if>
+                    <if test="alias !=null ">  alias= #{alias},</if>
+                    <if test="title !=null ">  title= #{title},</if>
+                    <if test="placeBirth !=null ">  place_birth= #{placeBirth},</if>
+                    <if test="age !=null ">  age= #{age},</if>
+                    <if test="dateDeath !=null ">  date_death= #{dateDeath},</if>
+                    <if test="causeDeath !=null ">  cause_death= #{causeDeath},</if>
+                    <if test="character !=null ">  character= #{character},</if>
+                    <if test="achievement !=null ">  achievement= #{achievement},</if>
+                    <if test="identity !=null ">  identity= #{identity},</if>
+                    <if test="mother !=null ">  mother= #{mother},</if>
+                    <if test="father !=null ">  father= #{father},</if>
+                    <if test="child !=null ">  child= #{child},</if>
+                    <if test="daughter !=null ">  daughter= #{daughter},</if>
+                    <if test="son !=null ">  son= #{son},</if>
+                    <if test="family !=null ">  family= #{family},</if>
+                    <if test="background !=null ">  background= #{background},</if>
+                    <if test="extra !=null ">  extra= #{extra},</if>
+                    <if test="specialInstructions !=null ">  special_instructions= #{specialInstructions},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+
+    <delete id="delById"  >
+        delete FROM  wiki_element_head_role where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.ElementHeadRoleVo">
+        <include refid="selectElementHeadRole"/> where  id = #{id}
+    </select>
+    <insert id="insertSelectEid">
+        insert into wiki_element_head_role
+        (eid, title, status, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra)
+        select ${eid}, title, 0, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra
+        from wiki_dart_head_role  where wid=#{wid} and eid=#{deid} and is_new=1 and is_delete=0
+    </insert>
+    <insert id="insertSelect">
+        insert into wiki_element_head_role
+        (eid, title, status, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra)
+        select source_eid as eid, title, 0, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra
+        from wiki_dart_head_role  where wid=#{wid} and eid=#{deid} and is_new=1 and is_delete=0
+    </insert>
+    <select id="selectByWidEid"  resultType="com.xinshijie.wiki.vo.ElementHeadRoleVo">
+        <include refid="selectElementHeadRole"/>
+        where eid=#{eid} and wid=#{wid}
+    </select>
+    <delete id="delByIdWidEid"  >
+        delete FROM  wiki_element_head_role  where  id = #{id} and eid=#{eid} and wid=#{wid}
+    </delete>
+</mapper>

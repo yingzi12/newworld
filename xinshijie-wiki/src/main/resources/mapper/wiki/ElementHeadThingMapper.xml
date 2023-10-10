@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.ElementHeadThingMapper">
+
+    <sql id="selectElementHeadThing">
+        select
+                  id,
+                wid,
+                weid,
+                name,
+                biography,
+                extra,
+                kind,
+                feature,
+                special_instructions,
+                purpose,
+                origin,
+                material,
+                make
+        from wiki_element_head_thing
+    </sql>
+
+    <select id="selectListElementHeadThing" parameterType="com.xinshijie.wiki.dto.ElementHeadThingDto" resultType="com.xinshijie.wiki.vo.ElementHeadThingVo">
+        <include refid="selectElementHeadThing"/>
+        <where>
+                    <if test="id !=null "> and id= #{id}</if>
+                    <if test="wid !=null "> and wid= #{wid}</if>
+                    <if test="weid !=null "> and weid= #{weid}</if>
+                    <if test="name !=null "> and name= #{name}</if>
+                    <if test="biography !=null "> and biography= #{biography}</if>
+                    <if test="extra !=null "> and extra= #{extra}</if>
+                    <if test="kind !=null "> and kind= #{kind}</if>
+                    <if test="feature !=null "> and feature= #{feature}</if>
+                    <if test="specialInstructions !=null "> and special_instructions= #{specialInstructions}</if>
+                    <if test="purpose !=null "> and purpose= #{purpose}</if>
+                    <if test="origin !=null "> and origin= #{origin}</if>
+                    <if test="material !=null "> and material= #{material}</if>
+                    <if test="make !=null "> and make= #{make}</if>
+        </where>
+    </select>
+
+    <select id="selectPageElementHeadThing"  resultType="com.xinshijie.wiki.vo.ElementHeadThingVo">
+        <include refid="selectElementHeadThing"/>
+        <where>
+                    <if test="dto.id !=null "> and id= #{dto.id}</if>
+                    <if test="dto.wid !=null "> and wid= #{dto.wid}</if>
+                    <if test="dto.weid !=null "> and weid= #{dto.weid}</if>
+                    <if test="dto.name !=null "> and name= #{dto.name}</if>
+                    <if test="dto.biography !=null "> and biography= #{dto.biography}</if>
+                    <if test="dto.extra !=null "> and extra= #{dto.extra}</if>
+                    <if test="dto.kind !=null "> and kind= #{dto.kind}</if>
+                    <if test="dto.feature !=null "> and feature= #{dto.feature}</if>
+                    <if test="dto.specialInstructions !=null "> and special_instructions= #{dto.specialInstructions}</if>
+                    <if test="dto.purpose !=null "> and purpose= #{dto.purpose}</if>
+                    <if test="dto.origin !=null "> and origin= #{dto.origin}</if>
+                    <if test="dto.material !=null "> and material= #{dto.material}</if>
+                    <if test="dto.make !=null "> and make= #{dto.make}</if>
+        </where>
+    </select>
+
+    <select id="getPageElementHeadThing"  resultType="com.xinshijie.wiki.vo.ElementHeadThingVo">
+        <include refid="selectElementHeadThing"/> ${ew.customSqlSegment}
+    </select>
+
+    <insert id="add"  >
+        insert into wiki_element_head_thing (
+                  id,
+                wid,
+                weid,
+                name,
+                biography,
+                extra,
+                kind,
+                feature,
+                special_instructions,
+                purpose,
+                origin,
+                material,
+                make
+          )
+        values
+            (
+                      #{ id },
+                    #{ wid },
+                    #{ weid },
+                    #{ name },
+                    #{ biography },
+                    #{ extra },
+                    #{ kind },
+                    #{ feature },
+                    #{ specialInstructions },
+                    #{ purpose },
+                    #{ origin },
+                    #{ material },
+                    #{ make }
+       )
+    </insert>
+
+    <update id="edit"  >
+        update  wiki_element_head_thing
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="id !=null ">  id= #{id},</if>
+                    <if test="wid !=null ">  wid= #{wid},</if>
+                    <if test="weid !=null ">  weid= #{weid},</if>
+                    <if test="name !=null ">  name= #{name},</if>
+                    <if test="biography !=null ">  biography= #{biography},</if>
+                    <if test="extra !=null ">  extra= #{extra},</if>
+                    <if test="kind !=null ">  kind= #{kind},</if>
+                    <if test="feature !=null ">  feature= #{feature},</if>
+                    <if test="specialInstructions !=null ">  special_instructions= #{specialInstructions},</if>
+                    <if test="purpose !=null ">  purpose= #{purpose},</if>
+                    <if test="origin !=null ">  origin= #{origin},</if>
+                    <if test="material !=null ">  material= #{material},</if>
+                    <if test="make !=null ">  make= #{make},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+
+    <delete id="delById"  >
+        delete FROM  wiki_element_head_thing where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.ElementHeadThingVo">
+        <include refid="selectElementHeadThing"/> where  id = #{id}
+    </select>
+    <insert id="insertSelectEid">
+        insert into wiki_element_head_thing
+        (eid, title, status, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra)
+        select ${eid}, title, 0, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra
+        from wiki_dart_head_thing  where wid=#{wid} and eid=#{deid} and is_new=1 and is_delete=0
+    </insert>
+    <insert id="insertSelect">
+        insert into wiki_element_head_thing
+        (eid, title, status, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra)
+        select source_eid as eid, title, 0, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra
+        from wiki_dart_head_thing  where wid=#{wid} and eid=#{deid} and is_new=1 and is_delete=0
+    </insert>
+    <select id="selectByWidEid"  resultType="com.xinshijie.wiki.vo.ElementHeadThingVo">
+        <include refid="selectElementHeadThing"/>
+        where eid=#{eid} and wid=#{wid}
+    </select>
+    <delete id="delByIdWidEid"  >
+        delete FROM  wiki_element_head_thing  where  id = #{id} and eid=#{eid} and wid=#{wid}
+    </delete>
+</mapper>

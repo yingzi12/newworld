@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.BlacklistMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xinshijie.wiki.vo.BlacklistVo">
+        <result column="id" property="id" />
+        <result column="wid" property="wid" />
+        <result column="wname" property="wname" />
+        <result column="create_id" property="createId" />
+        <result column="create_name" property="createName" />
+        <result column="create_time" property="createTime" />
+        <result column="user_id" property="userId" />
+        <result column="user_name" property="userName" />
+        <result column="status" property="status" />
+        <result column="end_time" property="endTime" />
+        <result column="explain" property="explain" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, wid, wname, create_id, create_name, create_time, user_id, user_name, status, end_time, explain
+    </sql>
+
+    <sql id="selectBlacklistVo">
+        select
+        id,
+        wid,
+        wname,
+        create_id,
+        create_name,
+        create_time,
+        user_id,
+        user_name,
+        status,
+        end_time,
+        explain
+       from wiki_blacklist
+    </sql>
+
+    <select id="selectBlacklistList" parameterType="com.xinshijie.wiki.dto.BlacklistDto" resultMap="BaseResultMap">
+        <include refid="selectBlacklistVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="wid != null "> and wid = #{wid}</if>
+         <if test="wname != null  and wname != ''"> and wname = #{wname}</if>
+         <if test="createId != null "> and create_id = #{createId}</if>
+         <if test="createName != null  and createName != ''"> and create_name = #{createName}</if>
+         <if test="createTime != null "> and create_time = #{createTime}</if>
+         <if test="userId != null "> and user_id = #{userId}</if>
+         <if test="userName != null  and userName != ''"> and user_name = #{userName}</if>
+         <if test="status != null "> and status = #{status}</if>
+         <if test="endTime != null "> and end_time = #{endTime}</if>
+         <if test="explain != null  and explain != ''"> and explain = #{explain}</if>
+        </where>
+    </select>
+
+    <select id="selectPageBlacklist"  resultMap="BaseResultMap">
+        <include refid="selectBlacklistVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.wid != null"> and wid = #{dto.wid}</if>
+                <if test="dto.wname != null"> and wname = #{dto.wname}</if>
+                <if test="dto.createId != null"> and create_id = #{dto.createId}</if>
+                <if test="dto.createName != null"> and create_name = #{dto.createName}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.userId != null"> and user_id = #{dto.userId}</if>
+                <if test="dto.userName != null"> and user_name = #{dto.userName}</if>
+                <if test="dto.status != null"> and status = #{dto.status}</if>
+                <if test="dto.endTime != null"> and end_time = #{dto.endTime}</if>
+                <if test="dto.explain != null"> and explain = #{dto.explain}</if>
+        </where>
+    </select>
+
+    <select id="getPageBlacklist"  resultMap="BaseResultMap">
+        <include refid="selectBlacklistVo"/> ${ew.customSqlSegment}
+    </select>
+
+
+    <update id="edit"  >
+        update  wiki_blacklist
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="id != null">id = #{id},</if>
+                    <if test="wid != null">wid = #{wid},</if>
+                    <if test="wname != null and wname != ''">wname = #{wname},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="userId != null">user_id = #{userId},</if>
+                    <if test="userName != null and userName != ''">user_name = #{userName},</if>
+                    <if test="status != null">status = #{status},</if>
+                    <if test="endTime != null">end_time = #{endTime},</if>
+                    <if test="explain != null and explain != ''">explain = #{explain},</if>
+        </trim>
+        where             
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_blacklist where            
+    </delete>
+
+    <select id="getInfo"  resultMap="BaseResultMap">
+        <include refid="selectBlacklistVo"/> where            
+    </select>
+
+</mapper>

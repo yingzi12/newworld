@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.ElementHeadRaceMapper">
+
+    <sql id="selectElementHeadRace">
+        select
+                  id,
+                wid,
+                weid,
+                name,
+                birthday,
+                biography,
+                background,
+                extra,
+                race_type,
+                feature,
+                main_members,
+                sphere_influence,
+                release_scope,
+                main_gathering_place,
+                main_forces,
+                legend,
+                custom
+        from wiki_element_head_race
+    </sql>
+
+    <select id="selectListElementHeadRace" parameterType="com.xinshijie.wiki.dto.ElementHeadRaceDto" resultType="com.xinshijie.wiki.vo.ElementHeadRaceVo">
+        <include refid="selectElementHeadRace"/>
+        <where>
+                    <if test="id !=null "> and id= #{id}</if>
+                    <if test="wid !=null "> and wid= #{wid}</if>
+                    <if test="weid !=null "> and weid= #{weid}</if>
+                    <if test="name !=null "> and name= #{name}</if>
+                    <if test="birthday !=null "> and birthday= #{birthday}</if>
+                    <if test="biography !=null "> and biography= #{biography}</if>
+                    <if test="background !=null "> and background= #{background}</if>
+                    <if test="extra !=null "> and extra= #{extra}</if>
+                    <if test="raceType !=null "> and race_type= #{raceType}</if>
+                    <if test="feature !=null "> and feature= #{feature}</if>
+                    <if test="mainMembers !=null "> and main_members= #{mainMembers}</if>
+                    <if test="sphereInfluence !=null "> and sphere_influence= #{sphereInfluence}</if>
+                    <if test="releaseScope !=null "> and release_scope= #{releaseScope}</if>
+                    <if test="mainGatheringPlace !=null "> and main_gathering_place= #{mainGatheringPlace}</if>
+                    <if test="mainForces !=null "> and main_forces= #{mainForces}</if>
+                    <if test="legend !=null "> and legend= #{legend}</if>
+                    <if test="custom !=null "> and custom= #{custom}</if>
+        </where>
+    </select>
+
+    <select id="selectPageElementHeadRace"  resultType="com.xinshijie.wiki.vo.ElementHeadRaceVo">
+        <include refid="selectElementHeadRace"/>
+        <where>
+                    <if test="dto.id !=null "> and id= #{dto.id}</if>
+                    <if test="dto.wid !=null "> and wid= #{dto.wid}</if>
+                    <if test="dto.weid !=null "> and weid= #{dto.weid}</if>
+                    <if test="dto.name !=null "> and name= #{dto.name}</if>
+                    <if test="dto.birthday !=null "> and birthday= #{dto.birthday}</if>
+                    <if test="dto.biography !=null "> and biography= #{dto.biography}</if>
+                    <if test="dto.background !=null "> and background= #{dto.background}</if>
+                    <if test="dto.extra !=null "> and extra= #{dto.extra}</if>
+                    <if test="dto.raceType !=null "> and race_type= #{dto.raceType}</if>
+                    <if test="dto.feature !=null "> and feature= #{dto.feature}</if>
+                    <if test="dto.mainMembers !=null "> and main_members= #{dto.mainMembers}</if>
+                    <if test="dto.sphereInfluence !=null "> and sphere_influence= #{dto.sphereInfluence}</if>
+                    <if test="dto.releaseScope !=null "> and release_scope= #{dto.releaseScope}</if>
+                    <if test="dto.mainGatheringPlace !=null "> and main_gathering_place= #{dto.mainGatheringPlace}</if>
+                    <if test="dto.mainForces !=null "> and main_forces= #{dto.mainForces}</if>
+                    <if test="dto.legend !=null "> and legend= #{dto.legend}</if>
+                    <if test="dto.custom !=null "> and custom= #{dto.custom}</if>
+        </where>
+    </select>
+
+    <select id="getPageElementHeadRace"  resultType="com.xinshijie.wiki.vo.ElementHeadRaceVo">
+        <include refid="selectElementHeadRace"/> ${ew.customSqlSegment}
+    </select>
+
+    <insert id="add"  >
+        insert into wiki_element_head_race (
+                  id,
+                wid,
+                weid,
+                name,
+                birthday,
+                biography,
+                background,
+                extra,
+                race_type,
+                feature,
+                main_members,
+                sphere_influence,
+                release_scope,
+                main_gathering_place,
+                main_forces,
+                legend,
+                custom
+          )
+        values
+            (
+                      #{ id },
+                    #{ wid },
+                    #{ weid },
+                    #{ name },
+                    #{ birthday },
+                    #{ biography },
+                    #{ background },
+                    #{ extra },
+                    #{ raceType },
+                    #{ feature },
+                    #{ mainMembers },
+                    #{ sphereInfluence },
+                    #{ releaseScope },
+                    #{ mainGatheringPlace },
+                    #{ mainForces },
+                    #{ legend },
+                    #{ custom }
+       )
+    </insert>
+
+    <update id="edit"  >
+        update  wiki_element_head_race
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="id !=null ">  id= #{id},</if>
+                    <if test="wid !=null ">  wid= #{wid},</if>
+                    <if test="weid !=null ">  weid= #{weid},</if>
+                    <if test="name !=null ">  name= #{name},</if>
+                    <if test="birthday !=null ">  birthday= #{birthday},</if>
+                    <if test="biography !=null ">  biography= #{biography},</if>
+                    <if test="background !=null ">  background= #{background},</if>
+                    <if test="extra !=null ">  extra= #{extra},</if>
+                    <if test="raceType !=null ">  race_type= #{raceType},</if>
+                    <if test="feature !=null ">  feature= #{feature},</if>
+                    <if test="mainMembers !=null ">  main_members= #{mainMembers},</if>
+                    <if test="sphereInfluence !=null ">  sphere_influence= #{sphereInfluence},</if>
+                    <if test="releaseScope !=null ">  release_scope= #{releaseScope},</if>
+                    <if test="mainGatheringPlace !=null ">  main_gathering_place= #{mainGatheringPlace},</if>
+                    <if test="mainForces !=null ">  main_forces= #{mainForces},</if>
+                    <if test="legend !=null ">  legend= #{legend},</if>
+                    <if test="custom !=null ">  custom= #{custom},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+
+    <delete id="delById"  >
+        delete FROM  wiki_element_head_race where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.ElementHeadRaceVo">
+        <include refid="selectElementHeadRace"/> where  id = #{id}
+    </select>
+
+    <insert id="insertSelectEid">
+        insert into wiki_element_head_race
+        (eid, title, status, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra)
+        select ${eid}, title, 0, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra
+        from wiki_dart_head_race  where wid=#{wid} and eid=#{deid} and is_new=1 and is_delete=0
+    </insert>
+    <insert id="insertSelect">
+        insert into wiki_element_head_race
+        (eid, title, status, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra)
+        select source_eid as eid, title, 0, content, wid, create_id, create_name, create_time, update_id, update_name, update_time,extra
+        from wiki_dart_head_race  where wid=#{wid} and eid=#{deid} and is_new=1 and is_delete=0
+    </insert>
+    <select id="selectByWidEid"  resultType="com.xinshijie.wiki.vo.ElementHeadRaceVo">
+        <include refid="selectElementHeadRace"/>
+        where eid=#{eid} and wid=#{wid}
+    </select>
+    <delete id="delByIdWidEid"  >
+        delete FROM  wiki_element_head_race  where  id = #{id} and eid=#{eid} and wid=#{wid}
+    </delete>
+</mapper>

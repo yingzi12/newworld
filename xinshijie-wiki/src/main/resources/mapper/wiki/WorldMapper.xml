@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.WorldMapper">
+
+    <sql id="selectWorldVo">
+        select *  from wiki_world
+    </sql>
+
+    <select id="selectWorldList" parameterType="com.xinshijie.wiki.dto.WorldFindDto" resultType="com.xinshijie.wiki.vo.WorldVo">
+        <include refid="selectWorldVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="name != null  and name != ''"> and name like concat("%",#{name},"%")</if>
+         <if test="types != null "> and types = #{types}</if>
+         <if test="intro != null  and intro != ''"> and intro = #{intro}</if>
+         <if test="status != null "> and status = #{status}</if>
+         <if test="status == null "> and status != 4 </if>
+         <if test="source != null "> and source = #{source}</if>
+         <if test="isPrivate != null "> and is_private = #{isPrivate}</if>
+        </where>
+
+    </select>
+
+    <select id="selectPageWorld"  parameterType="com.xinshijie.wiki.dto.WorldFindDto" resultType="com.xinshijie.wiki.vo.WorldVo">
+        <include refid="selectWorldVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.name != null"> and name like concat("%",#{name},"%")</if>
+                <if test="dto.types != null"> and types = #{dto.types}</if>
+                <if test="dto.intro != null"> and intro = #{dto.intro}</if>
+                <if test="dto.status != null"> and status = #{dto.status}</if>
+                <if test="dto.source != null"> and source = #{dto.source}</if>
+                <if test="dto.isPrivate != null"> and is_private = #{dto.isPrivate}</if>
+        </where>
+    </select>
+
+    <select id="getPageWorld"  resultType="com.xinshijie.wiki.vo.WorldVo">
+        <include refid="selectWorldVo"/> ${ew.customSqlSegment}
+    </select>
+
+    <update id="edit"  >
+        update  wiki_world
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="name != null and name != ''">name = #{name},</if>
+                    <if test="description != null and description != ''">description = #{description},</if>
+                    <if test="types != null">types = #{types},</if>
+                    <if test="intro != null and intro != ''">intro = #{intro},</if>
+                    <if test="ranks != null">ranks = #{ranks},</if>
+                    <if test="vitality != null">vitality = #{vitality},</if>
+                    <if test="updateNewElement != null and updateNewElement != ''">update_new_element = #{updateNewElement},</if>
+                    <if test="updateNewElementId != null">update_new_element_id = #{updateNewElementId},</if>
+                    <if test="scores != null">scores = #{scores},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="status != null">status = #{status},</if>
+                    <if test="imgUrl != null and imgUrl != ''">img_url = #{imgUrl},</if>
+                    <if test="updateNewElementTime != null">update_new_element_time = #{updateNewElementTime},</if>
+                    <if test="source != null">source = #{source},</if>
+                    <if test="isPrivate != null">is_private = #{isPrivate},</if>
+        </trim>
+        where   id=#{id}                              
+    </update>
+
+
+    <update id="updateCount"  >
+        update  wiki_world
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="vitality != null">vitality =vitality+ #{vitality},</if>
+            <if test="updateNewElement != null and updateNewElement != ''">update_new_element = #{updateNewElement},</if>
+            <if test="updateNewElementId != null">update_new_element_id = #{updateNewElementId},</if>
+            <if test="scores != null">scores =scores+ #{scores},</if>
+            <if test="countFllow != null">countFllow =countFllow+ #{countFllow},</if>
+            <if test="countAdmin != null">count_admin =count_admin+ #{countAdmin},</if>
+            <if test="countAddType != null">count_add_type =count_add_type+ #{countAddType},</if>
+            <if test="countComment != null">count_comment =count_comment+ #{countComment},</if>
+            <if test="countDiscuss != null">count_discuss =count_discuss+ #{countDiscuss},</if>
+            <if test="countElement != null">count_element =count_element+ #{countElement},</if>
+            <if test="countEdit != null">count_edit =count_edit+ #{countEdit},</if>
+            <if test="countFllow != null">countFllow =countFllow+ #{countFllow},</if>
+            <if test="countLike != null">count_like =count_like+ #{countLike},</if>
+            <if test="countResident != null">count_resident =count_resident+ #{countResident},</if>
+            <if test="countSee != null">count_see =count_see+ #{countSee},</if>
+            <if test="countStory != null">count_story =count_story+ #{countStory},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="updateNewElementTime != null">update_new_element_time = #{updateNewElementTime},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+    <update id="updateRank"  >
+        update  wiki_world
+        set ranks = ranks + 1
+        where   id=#{id} and vitality >= #{upgrade}
+    </update>
+    <update id="updateCountAuditStory"  >
+    update  wiki_world
+    set count_audit_story = count_audit_ + #{count}
+    where   id=#{wid}
+    </update>
+    <update id="updateCountAuditElement"  >
+        update  wiki_world
+        set count_audit_element = count_audit_element + #{count}
+        where   id=#{wid}
+    </update>
+    <update id="updateCountAuditDiscuss"  >
+        update  wiki_world
+        set count_audit_discuss = count_audit_discuss + #{count}
+        where   id=#{wid}
+    </update>
+    <update id="updateCountAuditComment"  >
+        update  wiki_world
+        set count_audit_comment = count_audit_comment + #{count}
+        where   id=#{wid}
+    </update>
+    <update id="updateCountAuditManage"  >
+        update  wiki_world
+        set count_audit_manage = count_audit_manage + #{CountAudit}
+        where   id=#{wid}
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_world where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.WorldVo">
+        <include refid="selectWorldVo"/> where  id = #{id}
+    </select>
+
+    <select id="findByManage" parameterType="com.xinshijie.wiki.dto.WorldFindDto" resultType="com.xinshijie.wiki.vo.WorldVo">
+        select ww.* from wiki_world ww,wiki_manage wm
+        where  wm.wid =ww.id and wm.user_id =#{userId}
+        <if test="name != null  and name != ''"> and ww.name like concat('%', #{name}, '%')</if>
+        <if test="types != null "> and ww.types = #{types}</if>
+        <if test="status != null "> and ww.status = #{status}</if>
+        <if test="status == null "> and ww.status != 4 </if>
+
+    </select>
+    <select id="selectByName"  resultType="com.xinshijie.wiki.vo.WorldVo">
+        select * from wiki_world where name=#{name} and status=0
+    </select>
+</mapper>

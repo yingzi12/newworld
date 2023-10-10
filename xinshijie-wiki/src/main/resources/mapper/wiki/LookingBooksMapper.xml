@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.LookingBooksMapper">
+
+    <sql id="selectLookingBooks">
+        select
+                  id,
+                book_name,
+                create_time,
+                status,
+                create_by,
+                create_name,
+                intro,
+                explain,
+                count_me_too
+        from wiki_looking_books
+    </sql>
+
+    <select id="selectListLookingBooks" parameterType="com.xinshijie.wiki.dto.LookingBooksDto" resultType="com.xinshijie.wiki.vo.LookingBooksVo">
+        <include refid="selectLookingBooks"/>
+        <where>
+                    <if test="id !=null ">and id= #{id}</if>
+                    <if test="bookName !=null ">and book_name= #{bookName}</if>
+                    <if test="createTime !=null ">and create_time= #{createTime}</if>
+                    <if test="status !=null ">and status= #{status}</if>
+                    <if test="createBy !=null ">and create_by= #{createBy}</if>
+                    <if test="createName !=null ">and create_name= #{createName}</if>
+                    <if test="intro !=null ">and intro= #{intro}</if>
+                    <if test="explain !=null ">and explain= #{explain}</if>
+                    <if test="countMeToo !=null ">and count_me_too= #{countMeToo}</if>
+        </where>
+    </select>
+
+    <select id="selectPageLookingBooks"  resultType="com.xinshijie.wiki.vo.LookingBooksVo">
+        <include refid="selectLookingBooks"/>
+        <where>
+                    <if test="dto.id !=null ">and id= #{dto.id}</if>
+                    <if test="dto.bookName !=null ">and book_name= #{dto.bookName}</if>
+                    <if test="dto.createTime !=null ">and create_time= #{dto.createTime}</if>
+                    <if test="dto.status !=null ">and status= #{dto.status}</if>
+                    <if test="dto.createBy !=null ">and create_by= #{dto.createBy}</if>
+                    <if test="dto.createName !=null ">and create_name= #{dto.createName}</if>
+                    <if test="dto.intro !=null ">and intro= #{dto.intro}</if>
+                    <if test="dto.explain !=null ">and explain= #{dto.explain}</if>
+                    <if test="dto.countMeToo !=null ">and count_me_too= #{dto.countMeToo}</if>
+        </where>
+    </select>
+
+    <select id="getPageLookingBooks"  resultType="com.xinshijie.wiki.vo.LookingBooksVo">
+        <include refid="selectLookingBooks"/> ${ew.customSqlSegment}
+    </select>
+
+    <insert id="add"  >
+        insert into wiki_looking_books (
+                id,
+                book_name,
+                create_time,
+                status,
+                create_by,
+                create_name,
+                intro,
+                explain,
+                count_me_too
+          )
+        values
+            (
+                    #{ id },
+                    #{ bookName },
+                    #{ createTime },
+                    #{ status },
+                    #{ createBy },
+                    #{ createName },
+                    #{ intro },
+                    #{ explain },
+                    #{ countMeToo }
+       )
+    </insert>
+
+    <update id="edit"  >
+        update  wiki_looking_books
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="id !=null ">  id= #{id},</if>
+                    <if test="bookName !=null ">  book_name= #{bookName},</if>
+                    <if test="createTime !=null ">  create_time= #{createTime},</if>
+                    <if test="status !=null ">  status= #{status},</if>
+                    <if test="createBy !=null ">  create_by= #{createBy},</if>
+                    <if test="createName !=null ">  create_name= #{createName},</if>
+                    <if test="intro !=null ">  intro= #{intro},</if>
+                    <if test="explain !=null ">  explain= #{explain},</if>
+                    <if test="countMeToo !=null ">  count_me_too= #{countMeToo},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+
+    <delete id="delById"  >
+        delete FROM  wiki_looking_books where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.LookingBooksVo">
+        <include refid="selectLookingBooks"/> where  id = #{id}
+    </select>
+
+</mapper>

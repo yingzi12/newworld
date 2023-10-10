@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.DraftHeadForcesMapper">
+
+    <sql id="selectDraftHeadForces">
+        select
+                  id,
+                wid,
+                weid,
+                name,
+                birthday,
+                biography,
+                background,
+                extra,
+                farces_type,
+                feature,
+                force_creator,
+                main_members,
+                architecture,
+                sphere_influence,
+                create_id,
+                create_name,
+                create_time,
+                update_id,
+                update_name,
+                update_time,
+                source_ehid,
+                diff,
+                source_eid,
+                serial,
+                is_delete,
+                is_new,
+                is_update,
+                souce_cid
+        from wiki_draft_head_forces
+    </sql>
+
+    <select id="selectListDraftHeadForces" parameterType="com.xinshijie.wiki.dto.DraftHeadForcesDto" resultType="com.xinshijie.wiki.vo.DraftHeadForcesVo">
+        <include refid="selectDraftHeadForces"/>
+        <where>
+                    <if test="id !=null ">and id= #{id}</if>
+                    <if test="wid !=null ">and wid= #{wid}</if>
+                    <if test="weid !=null ">and weid= #{weid}</if>
+                    <if test="name !=null ">and name= #{name}</if>
+                    <if test="birthday !=null ">and birthday= #{birthday}</if>
+                    <if test="biography !=null ">and biography= #{biography}</if>
+                    <if test="background !=null ">and background= #{background}</if>
+                    <if test="extra !=null ">and extra= #{extra}</if>
+                    <if test="farcesType !=null ">and farces_type= #{farcesType}</if>
+                    <if test="feature !=null ">and feature= #{feature}</if>
+                    <if test="forceCreator !=null ">and force_creator= #{forceCreator}</if>
+                    <if test="mainMembers !=null ">and main_members= #{mainMembers}</if>
+                    <if test="architecture !=null ">and architecture= #{architecture}</if>
+                    <if test="sphereInfluence !=null ">and sphere_influence= #{sphereInfluence}</if>
+                    <if test="createId !=null ">and create_id= #{createId}</if>
+                    <if test="createName !=null ">and create_name= #{createName}</if>
+                    <if test="createTime !=null ">and create_time= #{createTime}</if>
+                    <if test="updateId !=null ">and update_id= #{updateId}</if>
+                    <if test="updateName !=null ">and update_name= #{updateName}</if>
+                    <if test="updateTime !=null ">and update_time= #{updateTime}</if>
+                    <if test="sourceEhid !=null ">and source_ehid= #{sourceEhid}</if>
+                    <if test="diff !=null ">and diff= #{diff}</if>
+                    <if test="sourceEid !=null ">and source_eid= #{sourceEid}</if>
+                    <if test="serial !=null ">and serial= #{serial}</if>
+                    <if test="isDelete !=null ">and is_delete= #{isDelete}</if>
+                    <if test="isNew !=null ">and is_new= #{isNew}</if>
+                    <if test="isUpdate !=null ">and is_update= #{isUpdate}</if>
+                    <if test="souceCid !=null ">and souce_cid= #{souceCid}</if>
+        </where>
+    </select>
+
+    <select id="selectPageDraftHeadForces"  resultType="com.xinshijie.wiki.vo.DraftHeadForcesVo">
+        <include refid="selectDraftHeadForces"/>
+        <where>
+                    <if test="dto.id !=null ">and id= #{dto.id}</if>
+                    <if test="dto.wid !=null ">and wid= #{dto.wid}</if>
+                    <if test="dto.weid !=null ">and weid= #{dto.weid}</if>
+                    <if test="dto.name !=null ">and name= #{dto.name}</if>
+                    <if test="dto.birthday !=null ">and birthday= #{dto.birthday}</if>
+                    <if test="dto.biography !=null ">and biography= #{dto.biography}</if>
+                    <if test="dto.background !=null ">and background= #{dto.background}</if>
+                    <if test="dto.extra !=null ">and extra= #{dto.extra}</if>
+                    <if test="dto.farcesType !=null ">and farces_type= #{dto.farcesType}</if>
+                    <if test="dto.feature !=null ">and feature= #{dto.feature}</if>
+                    <if test="dto.forceCreator !=null ">and force_creator= #{dto.forceCreator}</if>
+                    <if test="dto.mainMembers !=null ">and main_members= #{dto.mainMembers}</if>
+                    <if test="dto.architecture !=null ">and architecture= #{dto.architecture}</if>
+                    <if test="dto.sphereInfluence !=null ">and sphere_influence= #{dto.sphereInfluence}</if>
+                    <if test="dto.createId !=null ">and create_id= #{dto.createId}</if>
+                    <if test="dto.createName !=null ">and create_name= #{dto.createName}</if>
+                    <if test="dto.createTime !=null ">and create_time= #{dto.createTime}</if>
+                    <if test="dto.updateId !=null ">and update_id= #{dto.updateId}</if>
+                    <if test="dto.updateName !=null ">and update_name= #{dto.updateName}</if>
+                    <if test="dto.updateTime !=null ">and update_time= #{dto.updateTime}</if>
+                    <if test="dto.sourceEhid !=null ">and source_ehid= #{dto.sourceEhid}</if>
+                    <if test="dto.diff !=null ">and diff= #{dto.diff}</if>
+                    <if test="dto.sourceEid !=null ">and source_eid= #{dto.sourceEid}</if>
+                    <if test="dto.serial !=null ">and serial= #{dto.serial}</if>
+                    <if test="dto.isDelete !=null ">and is_delete= #{dto.isDelete}</if>
+                    <if test="dto.isNew !=null ">and is_new= #{dto.isNew}</if>
+                    <if test="dto.isUpdate !=null ">and is_update= #{dto.isUpdate}</if>
+                    <if test="dto.souceCid !=null ">and souce_cid= #{dto.souceCid}</if>
+        </where>
+    </select>
+
+    <select id="getPageDraftHeadForces"  resultType="com.xinshijie.wiki.vo.DraftHeadForcesVo">
+        <include refid="selectDraftHeadForces"/> ${ew.customSqlSegment}
+    </select>
+
+    <insert id="add"  >
+        insert into wiki_draft_head_forces (
+                  id,
+                wid,
+                weid,
+                name,
+                birthday,
+                biography,
+                background,
+                extra,
+                farces_type,
+                feature,
+                force_creator,
+                main_members,
+                architecture,
+                sphere_influence,
+                create_id,
+                create_name,
+                create_time,
+                update_id,
+                update_name,
+                update_time,
+                source_ehid,
+                diff,
+                source_eid,
+                serial,
+                is_delete,
+                is_new,
+                is_update,
+                souce_cid
+          )
+        values
+            (
+                      #{ id },
+                    #{ wid },
+                    #{ weid },
+                    #{ name },
+                    #{ birthday },
+                    #{ biography },
+                    #{ background },
+                    #{ extra },
+                    #{ farcesType },
+                    #{ feature },
+                    #{ forceCreator },
+                    #{ mainMembers },
+                    #{ architecture },
+                    #{ sphereInfluence },
+                    #{ createId },
+                    #{ createName },
+                    #{ createTime },
+                    #{ updateId },
+                    #{ updateName },
+                    #{ updateTime },
+                    #{ sourceEhid },
+                    #{ diff },
+                    #{ sourceEid },
+                    #{ serial },
+                    #{ isDelete },
+                    #{ isNew },
+                    #{ isUpdate },
+                    #{ souceCid }
+       )
+    </insert>
+
+    <update id="edit"  >
+        update  wiki_draft_head_forces
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="id !=null ">  id= #{id},</if>
+                    <if test="wid !=null ">  wid= #{wid},</if>
+                    <if test="weid !=null ">  weid= #{weid},</if>
+                    <if test="name !=null ">  name= #{name},</if>
+                    <if test="birthday !=null ">  birthday= #{birthday},</if>
+                    <if test="biography !=null ">  biography= #{biography},</if>
+                    <if test="background !=null ">  background= #{background},</if>
+                    <if test="extra !=null ">  extra= #{extra},</if>
+                    <if test="farcesType !=null ">  farces_type= #{farcesType},</if>
+                    <if test="feature !=null ">  feature= #{feature},</if>
+                    <if test="forceCreator !=null ">  force_creator= #{forceCreator},</if>
+                    <if test="mainMembers !=null ">  main_members= #{mainMembers},</if>
+                    <if test="architecture !=null ">  architecture= #{architecture},</if>
+                    <if test="sphereInfluence !=null ">  sphere_influence= #{sphereInfluence},</if>
+                    <if test="createId !=null ">  create_id= #{createId},</if>
+                    <if test="createName !=null ">  create_name= #{createName},</if>
+                    <if test="createTime !=null ">  create_time= #{createTime},</if>
+                    <if test="updateId !=null ">  update_id= #{updateId},</if>
+                    <if test="updateName !=null ">  update_name= #{updateName},</if>
+                    <if test="updateTime !=null ">  update_time= #{updateTime},</if>
+                    <if test="sourceEhid !=null ">  source_ehid= #{sourceEhid},</if>
+                    <if test="diff !=null ">  diff= #{diff},</if>
+                    <if test="sourceEid !=null ">  source_eid= #{sourceEid},</if>
+                    <if test="serial !=null ">  serial= #{serial},</if>
+                    <if test="isDelete !=null ">  is_delete= #{isDelete},</if>
+                    <if test="isNew !=null ">  is_new= #{isNew},</if>
+                    <if test="isUpdate !=null ">  is_update= #{isUpdate},</if>
+                    <if test="souceCid !=null ">  souce_cid= #{souceCid},</if>
+        </trim>
+        where   id=#{id}
+    </update>
+
+    <delete id="delById"  >
+        delete FROM  wiki_draft_head_forces where  id = #{id}
+    </delete>
+
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.DraftHeadForcesVo">
+        <include refid="selectDraftHeadForces"/> where  id = #{id}
+    </select>
+
+    <insert id="insetSelectContent">
+        insert into wiki_draft_head_forces (
+        eid, title, status, content, wid,
+        create_id, create_name, serial,
+        is_delete, is_new, is_update,source_eid,source_ecid,extra
+        )
+        select ${id},title,status,content,wid,
+        ${userId},'${userName}', serial,
+        1,0,0,eid,id,extra
+        from wiki_element_head_forces where wid=#{wid} and eid=#{eid} and id ={ehid}
+    </insert>
+    <select id="selectByWidEid"  resultType="com.xinshijie.wiki.vo.DraftHeadForcesVo">
+        <include refid="selectDraftHeadForces"/>
+        where eid=#{eid} and wid=#{wid} <if test="isDel == 0">and is_delete= 0</if>
+    </select>
+
+    <delete id="deleteByEidWid"  >
+        delete FROM  wiki_draft_head_forces where  wid = #{wid} and eid=#{eid}
+    </delete>
+</mapper>

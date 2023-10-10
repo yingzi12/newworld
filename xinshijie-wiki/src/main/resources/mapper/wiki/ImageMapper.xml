@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.ImageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xinshijie.wiki.vo.ImageVo">
+        <id column="id" property="id" />
+        <result column="storage" property="storage" />
+        <result column="group_id" property="groupId" />
+        <result column="file_url" property="fileUrl" />
+        <result column="file_name" property="fileName" />
+        <result column="file_size" property="fileSize" />
+        <result column="file_type" property="fileType" />
+        <result column="md5" property="md5" />
+        <result column="create_time" property="createTime" />
+        <result column="original_filename" property="originalFilename" />
+
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, storage, group_id, file_url, file_name, file_size, file_type, md5, create_time
+    </sql>
+
+    <sql id="selectImageVo">
+        select
+        id,
+        storage,
+        group_id,
+        file_url,
+        file_name,
+        file_size,
+        file_type,
+        md5,
+        create_time,
+        original_filename
+       from wiki_image
+    </sql>
+
+    <select id="selectImageList" parameterType="com.xinshijie.wiki.dto.ImageDto" resultMap="BaseResultMap">
+        <include refid="selectImageVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="storage != null  and storage != ''"> and storage = #{storage}</if>
+         <if test="groupId != null "> and group_id = #{groupId}</if>
+         <if test="fileUrl != null  and fileUrl != ''"> and file_url = #{fileUrl}</if>
+         <if test="fileName != null  and fileName != ''"> and file_name = #{fileName}</if>
+         <if test="fileSize != null "> and file_size = #{fileSize}</if>
+         <if test="fileType != null  and fileType != ''"> and file_type = #{fileType}</if>
+         <if test="md5 != null  and md5 != ''"> and md5 = #{md5}</if>
+         <if test="createTime != null "> and create_time = #{createTime}</if>
+        </where>
+    </select>
+
+    <select id="selectPageImage"  resultMap="BaseResultMap">
+        <include refid="selectImageVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.storage != null"> and storage = #{dto.storage}</if>
+                <if test="dto.groupId != null"> and group_id = #{dto.groupId}</if>
+                <if test="dto.fileUrl != null"> and file_url = #{dto.fileUrl}</if>
+                <if test="dto.fileName != null"> and file_name = #{dto.fileName}</if>
+                <if test="dto.fileSize != null"> and file_size = #{dto.fileSize}</if>
+                <if test="dto.fileType != null"> and file_type = #{dto.fileType}</if>
+                <if test="dto.md5 != null"> and md5 = #{dto.md5}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+        </where>
+    </select>
+
+    <select id="getPageImage"  resultMap="BaseResultMap">
+        <include refid="selectImageVo"/> ${ew.customSqlSegment}
+    </select>
+
+    <update id="edit"  >
+        update  wiki_image
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="storage != null and storage != ''">storage = #{storage},</if>
+                    <if test="groupId != null">group_id = #{groupId},</if>
+                    <if test="fileUrl != null and fileUrl != ''">file_url = #{fileUrl},</if>
+                    <if test="fileName != null and fileName != ''">file_name = #{fileName},</if>
+                    <if test="fileSize != null">file_size = #{fileSize},</if>
+                    <if test="fileType != null and fileType != ''">file_type = #{fileType},</if>
+                    <if test="md5 != null and md5 != ''">md5 = #{md5},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where   id=#{id}           
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_image where  id = #{id}           
+    </delete>
+
+    <select id="getInfo"  resultMap="BaseResultMap">
+        <include refid="selectImageVo"/> where  id = #{id}           
+    </select>
+
+    <select id="getInfoByMd5"  resultMap="BaseResultMap">
+        <include refid="selectImageVo"/> where  md5 = #{md5}
+    </select>
+</mapper>

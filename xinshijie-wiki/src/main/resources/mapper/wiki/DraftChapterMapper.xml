@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.DraftChapterMapper">
+
+    <!-- 通用查询映射结果 -->
+
+    <sql id="selectDraftChapterStoryVo">
+        select dc.id ,dc.title,dc.status,dc.serialNumber,dc.create_time,dc.create_name,dc.create_id,dc.update_id,dc.update_name,dc.update_time,dc.pid,dc.`LEVEL`,dc.count_world,dc.is_vip,dc.wid,dc.sid,dc.content,dc.audit_number,dc.audit_content,dc.audit_id,dc.audit_name,
+               dc.audit_time,dc.source_scid,dc.end_time,dc.is_new,dc.pname,dc.up_id,dc.down_id
+             ,ws.name as sname
+        from wiki_draft_chapter dc,wiki_story ws
+        WHERE  dc.sid =ws.id
+
+    </sql>
+    <sql id="selectDraftChapterVo">
+        select *
+        from wiki_draft_chapter dc
+    </sql>
+    <select id="selectDraftChapterList" parameterType="com.xinshijie.wiki.dto.DraftChapterDto" resultType="com.xinshijie.wiki.vo.DraftChapterVo">
+        <include refid="selectDraftChapterStoryVo"/>
+        <if test="dto.id != null"> and dc.id = #{dto.id}</if>
+        <if test="dto.title != null"> and dc.title = #{dto.title}</if>
+        <if test="dto.status != null"> and dc.status = #{dto.status}</if>
+        <if test="dto.serialNumber != null"> and dc.serialNumber = #{dto.serialNumber}</if>
+        <if test="dto.createTime != null"> and dc.create_time = #{dto.createTime}</if>
+        <if test="dto.createName != null"> and dc.create_name = #{dto.createName}</if>
+        <if test="dto.createId != null"> and dc.create_id = #{dto.createId}</if>
+        <if test="dto.updateId != null"> and dc.update_id = #{dto.updateId}</if>
+        <if test="dto.updateName != null"> and dc.update_name = #{dto.updateName}</if>
+        <if test="dto.updateTime != null"> and dc.update_time = #{dto.updateTime}</if>
+        <if test="dto.pid != null"> and dc.pid = #{dto.pid}</if>
+        <if test="dto.level != null"> and dc.level = #{dto.level}</if>
+        <if test="dto.countWorld != null"> and dc.count_world = #{dto.countWorld}</if>
+        <if test="dto.isVip != null"> and dc.is_vip = #{dto.isVip}</if>
+        <if test="dto.wid != null"> and dc.wid = #{dto.wid}</if>
+        <if test="dto.sid != null"> and dc.sid = #{dto.sid}</if>
+        <if test="dto.content != null"> and dc.content = #{dto.content}</if>
+        <if test="dto.auditNumber != null"> and dc.audit_number = #{dto.auditNumber}</if>
+        <if test="dto.auditContent != null"> and dc.audit_content = #{dto.auditContent}</if>
+        <if test="dto.auditId != null"> and dc.audit_id = #{dto.auditId}</if>
+        <if test="dto.auditName != null"> and dc.audit_name = #{dto.auditName}</if>
+        <if test="dto.auditTime != null"> and dc.audit_time = #{dto.auditTime}</if>
+        <if test="dto.sourceScid != null"> and dc.source_scid = #{dto.sourceScid}</if>
+        <if test="dto.endTime != null"> and dc.end_time = #{dto.endTime}</if>
+        <if test="dto.auditStatus == 1"> and dc.status in ( 2,3 )</if>
+        order by dc.serial_number,dc.create_time
+
+    </select>
+
+    <select id="selectPageDraftChapter"  resultType="com.xinshijie.wiki.vo.DraftChapterVo">
+        <include refid="selectDraftChapterStoryVo"/>
+            <if test="dto.id != null"> and dc.id = #{dto.id}</if>
+            <if test="dto.title != null"> and dc.title = #{dto.title}</if>
+            <if test="dto.status != null"> and dc.status = #{dto.status}</if>
+            <if test="dto.serialNumber != null"> and dc.serialNumber = #{dto.serialNumber}</if>
+            <if test="dto.createTime != null"> and dc.create_time = #{dto.createTime}</if>
+            <if test="dto.createName != null"> and dc.create_name = #{dto.createName}</if>
+            <if test="dto.createId != null"> and dc.create_id = #{dto.createId}</if>
+            <if test="dto.updateId != null"> and dc.update_id = #{dto.updateId}</if>
+            <if test="dto.updateName != null"> and dc.update_name = #{dto.updateName}</if>
+            <if test="dto.updateTime != null"> and dc.update_time = #{dto.updateTime}</if>
+            <if test="dto.pid != null"> and dc.pid = #{dto.pid}</if>
+            <if test="dto.level != null"> and dc.level = #{dto.level}</if>
+            <if test="dto.countWorld != null"> and dc.count_world = #{dto.countWorld}</if>
+            <if test="dto.isVip != null"> and dc.is_vip = #{dto.isVip}</if>
+            <if test="dto.wid != null"> and dc.wid = #{dto.wid}</if>
+            <if test="dto.sid != null"> and dc.sid = #{dto.sid}</if>
+            <if test="dto.content != null"> and dc.content = #{dto.content}</if>
+            <if test="dto.auditNumber != null"> and dc.audit_number = #{dto.auditNumber}</if>
+            <if test="dto.auditContent != null"> and dc.audit_content = #{dto.auditContent}</if>
+            <if test="dto.auditId != null"> and dc.audit_id = #{dto.auditId}</if>
+            <if test="dto.auditName != null"> and dc.audit_name = #{dto.auditName}</if>
+            <if test="dto.auditTime != null"> and dc.audit_time = #{dto.auditTime}</if>
+            <if test="dto.sourceScid != null"> and dc.source_scid = #{dto.sourceScid}</if>
+            <if test="dto.endTime != null"> and dc.end_time = #{dto.endTime}</if>
+        order by dc.serial_number,dc.create_time
+    </select>
+
+    <select id="getPageDraftChapter"  resultType="com.xinshijie.wiki.vo.DraftChapterVo">
+        <include refid="selectDraftChapterStoryVo"/> ${ew.customSqlSegment}
+        order by dc.serial_number,dc.create_time
+    </select>
+
+    <update id="edit"  >
+        update  wiki_draft_chapter
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="title != null and title != ''">title = #{title},</if>
+                    <if test="status != null">status = #{status},</if>
+                    <if test="serialNumber != null">serialNumber = #{serialNumber},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="pid != null">pid = #{pid},</if>
+                    <if test="level != null and level != ''">level = #{level},</if>
+                    <if test="countWorld != null">count_world = #{countWorld},</if>
+                    <if test="isVip != null">is_vip = #{isVip},</if>
+                    <if test="wid != null">wid = #{wid},</if>
+                    <if test="sid != null">sid = #{sid},</if>
+                    <if test="content != null and content != ''">content = #{content},</if>
+                    <if test="auditNumber != null">audit_number = #{auditNumber},</if>
+                    <if test="auditContent != null and auditContent != ''">audit_content = #{auditContent},</if>
+                    <if test="auditId != null">audit_id = #{auditId},</if>
+                    <if test="auditName != null and auditName != ''">audit_name = #{auditName},</if>
+                    <if test="auditTime != null">audit_time = #{auditTime},</if>
+                    <if test="sourceScid != null and sourceScid != ''">source_scid = #{sourceScid},</if>
+                    <if test="endTime != null">end_time = #{endTime},</if>
+                    <if test="upId != null">up_id = #{upId},</if>
+                    <if test="downId != null">down_id = #{downId},</if>
+        </trim>
+        where   id=#{id} and sid=#{sid}
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_draft_chapter where  id = #{dscid} and sid=#{sid}
+    </delete>
+
+    <select id="selectByIdSidUserId"  resultType="com.xinshijie.wiki.vo.DraftChapterVo">
+        <include refid="selectDraftChapterStoryVo"/>  and  dc.id = #{dscid}  and dc.sid=#{sid}
+        <if test="userId != null">and dc.create_id = #{userId}</if>
+    </select>
+    <select id="getInfo"  resultType="com.xinshijie.wiki.vo.DraftChapterVo">
+        <include refid="selectDraftChapterVo"/>  and  dc.id = #{dscid}
+    </select>
+
+    <update id="updateStatus" parameterType="com.xinshijie.wiki.dto.DraftChapterDto">
+        update wiki_draft_chapter
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="status != null">status = #{status},</if>
+            <if test="updateId != null">update_id = #{updateId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateName != null">update_name = #{updateName},</if>
+            <if test="auditNumber != null">audit_number = #{auditNumber},</if>
+            <if test="auditContent != null">audit_content = #{auditContent},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+        </trim>
+        where id = #{id} and wid= #{wid}
+        <if test="userId != null">and create_id = #{userId}</if>
+    </update>
+    <delete id="deleteByIdWidUserId" parameterType="Long">
+        delete from wiki_draft_chapter where id = #{id} and wid = #{wid}
+        <if test="userId != null">and create_id = #{userId}</if>
+    </delete>
+
+    <update id="autorUpdateIss" parameterType="Integer">
+        update wiki_draft_chapter set
+                                      status =#{ updateStatus } ,
+                                      update_time=now(),
+                                      update_id= -1,
+                                      update_name='系统自动'
+        where status =#{ nowStatus} and end_time >now()
+    </update>
+    <select id="findOvertimeAudit" resultType="com.xinshijie.wiki.vo.DraftChapterVo">
+        select wid,id,status FROM  wiki_draft_chapter WHERE status =6 and end_time >now() Limit #{size}
+    </select>
+    <select id="findOvertimeIssous" resultType="com.xinshijie.wiki.vo.DraftChapterVo">
+        select wid,id,status FROM  wiki_draft_chapter WHERE status =5 and end_time >now() Limit #{size}
+    </select>
+
+</mapper>

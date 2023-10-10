@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xinshijie.wiki.mapper.AuditElementMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xinshijie.wiki.vo.AuditElementVo">
+        <id column="id" property="id" />
+        <result column="wid" property="wid" />
+        <result column="wname" property="wname" />
+        <result column="softtype" property="softtype" />
+        <result column="count_see" property="countSee" />
+        <result column="count_edit" property="countEdit" />
+        <result column="count_comment" property="countComment" />
+        <result column="version" property="version" />
+        <result column="status" property="status" />
+        <result column="tags" property="tags" />
+        <result column="is_delete" property="isDelete" />
+        <result column="create_id" property="createId" />
+        <result column="create_time" property="createTime" />
+        <result column="create_name" property="createName" />
+        <result column="update_id" property="updateId" />
+        <result column="update_time" property="updateTime" />
+        <result column="update_name" property="updateName" />
+        <result column="image_urls" property="imageUrls" />
+        <result column="source_eid" property="sourceEid" />
+        <result column="audit" property="audit" />
+        <result column="is_new" property="isNew" />
+        <result column="audit_id" property="auditId" />
+        <result column="audit_name" property="auditName" />
+        <result column="audit_time" property="auditTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, wid, wname, softtype, count_see, count_edit, count_comment, version, status, tags, is_delete, create_id, create_time, create_name, update_id, update_time, update_name, image_urls, source_eid, audit, is_new, audit_id, audit_name, audit_time
+    </sql>
+
+    <sql id="selectAuditElementVo">
+        select
+        id,
+        wid,
+        wname,
+        softtype,
+        count_see,
+        count_edit,
+        count_comment,
+        version,
+        status,
+        tags,
+        is_delete,
+        create_id,
+        create_time,
+        create_name,
+        update_id,
+        update_time,
+        update_name,
+        image_urls,
+        source_eid,
+        audit,
+        is_new,
+        audit_id,
+        audit_name,
+        audit_time
+       from wiki_audit_element
+    </sql>
+
+    <select id="selectAuditElementList" parameterType="com.xinshijie.wiki.dto.AuditElementDto" resultMap="BaseResultMap">
+        <include refid="selectAuditElementVo"/>
+        <where>
+         <if test="id != null "> and id = #{id}</if>
+         <if test="wid != null "> and wid = #{wid}</if>
+         <if test="wname != null  and wname != ''"> and wname = #{wname}</if>
+         <if test="softtype != null "> and softtype = #{softtype}</if>
+         <if test="countSee != null "> and count_see = #{countSee}</if>
+         <if test="countEdit != null "> and count_edit = #{countEdit}</if>
+         <if test="countComment != null "> and count_comment = #{countComment}</if>
+         <if test="version != null "> and version = #{version}</if>
+         <if test="status != null "> and status = #{status}</if>
+         <if test="tags != null  and tags != ''"> and tags = #{tags}</if>
+         <if test="isDelete != null "> and is_delete = #{isDelete}</if>
+         <if test="createId != null "> and create_id = #{createId}</if>
+         <if test="createTime != null "> and create_time = #{createTime}</if>
+         <if test="createName != null  and createName != ''"> and create_name = #{createName}</if>
+         <if test="updateId != null "> and update_id = #{updateId}</if>
+         <if test="updateTime != null "> and update_time = #{updateTime}</if>
+         <if test="updateName != null  and updateName != ''"> and update_name = #{updateName}</if>
+         <if test="imageUrls != null  and imageUrls != ''"> and image_urls = #{imageUrls}</if>
+         <if test="sourceEid != null "> and source_eid = #{sourceEid}</if>
+         <if test="audit != null  and audit != ''"> and audit = #{audit}</if>
+         <if test="isNew != null "> and is_new = #{isNew}</if>
+         <if test="auditId != null "> and audit_id = #{auditId}</if>
+         <if test="auditName != null  and auditName != ''"> and audit_name = #{auditName}</if>
+         <if test="auditTime != null "> and audit_time = #{auditTime}</if>
+        </where>
+    </select>
+
+    <select id="selectPageAuditElement"  resultMap="BaseResultMap">
+        <include refid="selectAuditElementVo"/>
+        <where>
+                <if test="dto.id != null"> and id = #{dto.id}</if>
+                <if test="dto.wid != null"> and wid = #{dto.wid}</if>
+                <if test="dto.wname != null"> and wname = #{dto.wname}</if>
+                <if test="dto.softtype != null"> and softtype = #{dto.softtype}</if>
+                <if test="dto.countSee != null"> and count_see = #{dto.countSee}</if>
+                <if test="dto.countEdit != null"> and count_edit = #{dto.countEdit}</if>
+                <if test="dto.countComment != null"> and count_comment = #{dto.countComment}</if>
+                <if test="dto.version != null"> and version = #{dto.version}</if>
+                <if test="dto.status != null"> and status = #{dto.status}</if>
+                <if test="dto.tags != null"> and tags = #{dto.tags}</if>
+                <if test="dto.isDelete != null"> and is_delete = #{dto.isDelete}</if>
+                <if test="dto.createId != null"> and create_id = #{dto.createId}</if>
+                <if test="dto.createTime != null"> and create_time = #{dto.createTime}</if>
+                <if test="dto.createName != null"> and create_name = #{dto.createName}</if>
+                <if test="dto.updateId != null"> and update_id = #{dto.updateId}</if>
+                <if test="dto.updateTime != null"> and update_time = #{dto.updateTime}</if>
+                <if test="dto.updateName != null"> and update_name = #{dto.updateName}</if>
+                <if test="dto.imageUrls != null"> and image_urls = #{dto.imageUrls}</if>
+                <if test="dto.sourceEid != null"> and source_eid = #{dto.sourceEid}</if>
+                <if test="dto.audit != null"> and audit = #{dto.audit}</if>
+                <if test="dto.isNew != null"> and is_new = #{dto.isNew}</if>
+                <if test="dto.auditId != null"> and audit_id = #{dto.auditId}</if>
+                <if test="dto.auditName != null"> and audit_name = #{dto.auditName}</if>
+                <if test="dto.auditTime != null"> and audit_time = #{dto.auditTime}</if>
+        </where>
+    </select>
+
+    <select id="getPageAuditElement"  resultMap="BaseResultMap">
+        <include refid="selectAuditElementVo"/> ${ew.customSqlSegment}
+    </select>
+
+
+    <update id="edit"  >
+        update  wiki_audit_element
+        <trim prefix="SET" suffixOverrides=",">
+                    <if test="wid != null">wid = #{wid},</if>
+                    <if test="wname != null and wname != ''">wname = #{wname},</if>
+                    <if test="softtype != null">softtype = #{softtype},</if>
+                    <if test="countSee != null">count_see = #{countSee},</if>
+                    <if test="countEdit != null">count_edit = #{countEdit},</if>
+                    <if test="countComment != null">count_comment = #{countComment},</if>
+                    <if test="version != null">version = #{version},</if>
+                    <if test="status != null">status = #{status},</if>
+                    <if test="tags != null and tags != ''">tags = #{tags},</if>
+                    <if test="isDelete != null">is_delete = #{isDelete},</if>
+                    <if test="createId != null">create_id = #{createId},</if>
+                    <if test="createTime != null">create_time = #{createTime},</if>
+                    <if test="createName != null and createName != ''">create_name = #{createName},</if>
+                    <if test="updateId != null">update_id = #{updateId},</if>
+                    <if test="updateTime != null">update_time = #{updateTime},</if>
+                    <if test="updateName != null and updateName != ''">update_name = #{updateName},</if>
+                    <if test="imageUrls != null and imageUrls != ''">image_urls = #{imageUrls},</if>
+                    <if test="sourceEid != null">source_eid = #{sourceEid},</if>
+                    <if test="audit != null and audit != ''">audit = #{audit},</if>
+                    <if test="isNew != null">is_new = #{isNew},</if>
+                    <if test="auditId != null">audit_id = #{auditId},</if>
+                    <if test="auditName != null and auditName != ''">audit_name = #{auditName},</if>
+                    <if test="auditTime != null">audit_time = #{auditTime},</if>
+        </trim>
+        where   id=#{id}                          
+    </update>
+
+    <delete id="delById"  >
+       delete FROM  wiki_audit_element where  id = #{id}                          
+    </delete>
+
+    <select id="getInfo"  resultMap="BaseResultMap">
+        <include refid="selectAuditElementVo"/> where  id = #{id}                          
+    </select>
+
+</mapper>
